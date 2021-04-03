@@ -1,4 +1,4 @@
-<!-- commits: https://github.com/nnethercote/perf-book/commit/5198a8631ed6017a7a39b5e41a4c6e04f74eb54a -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/5198a8631ed6017a7a39b5e41a4c6e04f74eb54a -->
 
 # イントロダクション
 
