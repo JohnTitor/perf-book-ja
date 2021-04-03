@@ -1,0 +1,17 @@
+[book]
+title = "The Rust Performance Book"
+authors = ["Nicholas Nethercote"]
+language = "ja"
+multilingual = false
+
+[build]
+create-missing = false
+
+[rust]
+edition = "2018"
+
+[output.html]
+curly-quotes = true
+default-theme = "rust"
+git-repository-url = "https://github.com/JohnTitor/perf-book-ja"
+site-url = "https://johntitor.github.io/perf-book-ja/"
