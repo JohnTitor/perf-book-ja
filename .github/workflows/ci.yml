@@ -9,6 +9,8 @@ jobs:
   ci:
     name: CI
     runs-on: ubuntu-latest
+    env:
+      DEPLOY_DIR: book/html
     steps:
     - uses: actions/checkout@v2
     - name: Build the book
