@@ -16,7 +16,7 @@
 - [標準ライブラリの型](standard-library-types.md)
 - [イテレータ](iterators.md)
 - [I/O](io.md)
-- [Logging and Debugging](logging-and-debugging.md)
+- [ログとデバッグ](logging-and-debugging.md)
 - [Wrapper Types](wrapper-types.md)
 - [Machine Code](machine-code.md)
 - [Parallelism](parallelism.md)
