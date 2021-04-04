@@ -17,7 +17,7 @@
 - [イテレータ](iterators.md)
 - [I/O](io.md)
 - [ログとデバッグ](logging-and-debugging.md)
-- [Wrapper Types](wrapper-types.md)
+- [ラッパー型](wrapper-types.md)
 - [Machine Code](machine-code.md)
 - [Parallelism](parallelism.md)
 - [General Tips](general-tips.md)
