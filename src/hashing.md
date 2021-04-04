@@ -1,4 +1,4 @@
-<!-- commit:  -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/d0ba7e92f194dfcdc374eb32801317b918a90d22 -->
 
 # ハッシュ化
 
