@@ -6,7 +6,7 @@
 
 - [イントロダクション](introduction.md)
 - [ベンチマーク](benchmarking.md)
-- [Build Configuration](build-configuration.md)
+- [ビルド設定](build-configuration.md)
 - [Linting](linting.md)
 - [Profiling](profiling.md)
 - [Inlining](inlining.md)
