@@ -65,7 +65,7 @@ Rust コンパイラは、並列コンパイルとそれによる高速化のた
 codegen-units = 1
 ```
 
-([**例**](https://likebike.com/posts/How_To_Write_Fast_Rust_Code.html#emit-asm))
+- [**例**](https://likebike.com/posts/How_To_Write_Fast_Rust_Code.html#emit-asm)
 
 [codegen unit]: https://doc.rust-lang.org/rustc/codegen-options/index.html#codegen-units
 
@@ -104,7 +104,7 @@ is a compilation model where you compile
 your program, run it on sample data while collecting profiling data, and then
 use that profiling data to guide a second compilation of the program.
 
-([**例**](https://blog.rust-lang.org/inside-rust/2020/11/11/exploring-pgo-for-the-rust-compiler.html))
+- [**例**](https://blog.rust-lang.org/inside-rust/2020/11/11/exploring-pgo-for-the-rust-compiler.html)
 
 これはセットアップにある程度の労力を要する高度なテクニックですが、いくつかの状況では試す価値があります。詳細は[rustc の PGO に関するドキュメント]を参照してください。
 
