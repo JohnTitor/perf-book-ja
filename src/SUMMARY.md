@@ -19,6 +19,6 @@
 - [ログとデバッグ](logging-and-debugging.md)
 - [ラッパー型](wrapper-types.md)
 - [マシンコード](machine-code.md)
-- [Parallelism](parallelism.md)
+- [並列処理](parallelism.md)
 - [General Tips](general-tips.md)
 - [Compile Times](compile-times.md)
