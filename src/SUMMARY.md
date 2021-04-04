@@ -13,7 +13,7 @@
 - [ハッシュ化](hashing.md)
 - [ヒープ割り当て](heap-allocations.md)
 - [型のサイズ](type-sizes.md)
-- [Standard Library Types](standard-library-types.md)
+- [標準ライブラリの型](standard-library-types.md)
 - [Iterators](iterators.md)
 - [I/O](io.md)
 - [Logging and Debugging](logging-and-debugging.md)
