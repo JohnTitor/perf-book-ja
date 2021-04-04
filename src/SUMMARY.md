@@ -14,7 +14,7 @@
 - [ヒープ割り当て](heap-allocations.md)
 - [型のサイズ](type-sizes.md)
 - [標準ライブラリの型](standard-library-types.md)
-- [Iterators](iterators.md)
+- [イテレータ](iterators.md)
 - [I/O](io.md)
 - [Logging and Debugging](logging-and-debugging.md)
 - [Wrapper Types](wrapper-types.md)
