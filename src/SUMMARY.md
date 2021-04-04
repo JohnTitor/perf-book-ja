@@ -21,4 +21,4 @@
 - [マシンコード](machine-code.md)
 - [並列処理](parallelism.md)
 - [一般的なアドバイス](general-tips.md)
-- [Compile Times](compile-times.md)
+- [コンパイル時間](compile-times.md)

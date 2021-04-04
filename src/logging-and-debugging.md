@@ -9,7 +9,7 @@
 
 [`assert!`] は常に実行されますが、[`debug_assert!`] はデバッグビルド時にのみ実行されることを覚えておいてください。頻繁に呼び出されるが安全性のために必要なわけではないアサーションについては、`debug_assert!` の使用を検討してください。
 
-- [**Example**](https://github.com/rust-lang/rust/pull/58210/commits/f7ed6e18160bc8fccf27a73c05f3935c9e8f672e)
+- [**例**](https://github.com/rust-lang/rust/pull/58210/commits/f7ed6e18160bc8fccf27a73c05f3935c9e8f672e)
 
 [`assert!`]: https://doc.rust-lang.org/std/macro.assert.html
 [`debug_assert!`]: https://doc.rust-lang.org/std/macro.debug_assert.html

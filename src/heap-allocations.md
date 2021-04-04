@@ -113,7 +113,7 @@ AP 1.1/25 (2 children) {
 
 ベクタの最小の、あるいは実際の大きさをしっている場合、[`Vec::with_capacity`]、[`Vec::reserve`]、あるいは [`Vec::reserve_exact`] を使って特定の容量を確保できます。例えば、あるベクタが少なくとも 20 個の要素を持つことが分かっている場合、これらの関数は直ちに一回のの割り当てで少なくとも 20 の容量を持つベクタを生成します。反対に一度に 1 つずつアイテムを挿入した場合には 4 回の割り当てを行うことになります (容量について、4、8、16、そして 32)。
 
-- [**Example**](https://github.com/rust-lang/rust/pull/77990/commits/a7f2bb634308a5f05f2af716482b67ba43701681)
+- [**例**](https://github.com/rust-lang/rust/pull/77990/commits/a7f2bb634308a5f05f2af716482b67ba43701681)
 
 [`vec::with_capacity`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.with_capacity
 [`vec::reserve`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.reserve
@@ -136,13 +136,13 @@ AP 1.1/25 (2 children) {
 
 [`smartstring`] クレートの `String` 型は std の `String` の代替であり、3 語分以下の文字列についてヒープ割り当てを回避します。64-bit プラットフォーム上では、これは、23 以下の ASCII 文字を合わせたすべての文字列を含む、24 bytes 以下の任意の文字列となります。
 
-- [**Example**](https://github.com/djc/topfew-rs/commit/803fd566e9b889b7ba452a2a294a3e4df76e6c4c)
+- [**例**](https://github.com/djc/topfew-rs/commit/803fd566e9b889b7ba452a2a294a3e4df76e6c4c)
 
 [`smartstring`]: https://crates.io/crates/smartstring
 
 `format!` マクロは `String` を生成する、つまり、割り当てを必要とすることに注意してください。文字列リテラルを使うことで `format!` の呼び出しを避けられる場合、この割り当てを回避できます。
 
-- [**Example**](https://github.com/rust-lang/rust/pull/55905/commits/c6862992d947331cd6556f765f6efbde0a709cf9)
+- [**例**](https://github.com/rust-lang/rust/pull/55905/commits/c6862992d947331cd6556f765f6efbde0a709cf9)
 
 ## ハッシュテーブル
 
@@ -203,7 +203,7 @@ assert_eq!(v1.capacity(), 99);
 
 時々、所有されたコピーでなく構造体にある借用されたデータへの参照を保持することで、`to_owned` 呼び出しを回避できることがあります。これは構造体にライフタイム注釈を必要とし、コードを複雑にします。そのため、プロファイリングやベンチマークでそうする価値があると分かった場合にのみ適用されるべきです。
 
-- [**Example**](https://github.com/rust-lang/rust/pull/50855/commits/6872377357dbbf373cfd2aae352cb74cfcc66f34)
+- [**例**](https://github.com/rust-lang/rust/pull/50855/commits/6872377357dbbf373cfd2aae352cb74cfcc66f34)
 
 ## コレクションを再利用する
 

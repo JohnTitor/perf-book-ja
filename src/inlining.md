@@ -24,12 +24,9 @@ Rust の関数向けには4種類のインライン属性があります:
 - [**例 5**](https://github.com/rust-lang/rust/pull/69256/commits/e761f3af904b3c275bdebc73bb29ffc45384945d)
 
 Cachegrind は関数がインライン化されているかどうかを確かめるのに適したプロファイラーです。Cachegrind の出力を見てみてください。最初と最後の行がイベントカウントとしてマーク **されていない** 場合にのみ、関数がインライン化されていることが分かります。
+
 例:
 
-Cachegrind is a good profiler for determining if a function is inlined. When
-looking at Cachegrind's output, you can tell that a function has been inlined
-if (and only if) its first and last lines are *not* marked with event counts.
-For example:
 ```text
       .  #[inline(always)]
       .  fn inlined(x: u32, y: u32) -> u32 {

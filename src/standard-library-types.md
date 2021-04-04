@@ -45,7 +45,7 @@ let r = o.ok_or(expensive()); // 常に `expensive()` として評価される
 let r = o.ok_or_else(|| expensive()); // 必要なときだけ `expensive()` として評価される
 ```
 
-- [**Example**](https://github.com/rust-lang/rust/pull/50051/commits/5070dea2366104fb0b5c344ce7f2a5cf8af176b0)
+- [**例**](https://github.com/rust-lang/rust/pull/50051/commits/5070dea2366104fb0b5c344ce7f2a5cf8af176b0)
 
 [`option::ok_or`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.ok_or
 [`option::ok_or_else`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.ok_or_else

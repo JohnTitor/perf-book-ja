@@ -100,15 +100,8 @@ panic = "abort"
 
 プロファイルに基づく最適化 (PGO) は、プログラムをコンパイルし、プロファイルデータを収集しながらサンプルデータをもとに実行し、プログラムの二度目のコンパイルをサポートするためにそのプロファイルデータを使用するという、コンパイルモデルです。
 
-is a compilation model where you compile
-your program, run it on sample data while collecting profiling data, and then
-use that profiling data to guide a second compilation of the program.
-
 - [**例**](https://blog.rust-lang.org/inside-rust/2020/11/11/exploring-pgo-for-the-rust-compiler.html)
 
 これはセットアップにある程度の労力を要する高度なテクニックですが、いくつかの状況では試す価値があります。詳細は[rustc の PGO に関するドキュメント]を参照してください。
-
-It is an advanced technique that takes some effort to set up, but is worthwhile
-in some cases. See the [rustc PGO documentation] for details.
 
 [rustc の PGO に関するドキュメント]: https://doc.rust-lang.org/rustc/profile-guided-optimization.html
