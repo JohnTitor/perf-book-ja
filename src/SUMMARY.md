@@ -8,7 +8,7 @@
 - [ベンチマーク](benchmarking.md)
 - [ビルド設定](build-configuration.md)
 - [Linting](linting.md)
-- [Profiling](profiling.md)
+- [プロファイリング](profiling.md)
 - [Inlining](inlining.md)
 - [Hashing](hashing.md)
 - [Heap Allocations](heap-allocations.md)
