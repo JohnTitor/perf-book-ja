@@ -2,10 +2,10 @@
 
 # Summary
 
-[Title Page](title-page.md)
+[タイトルページ](title-page.md)
 
-- [Introduction](introduction.md)
-- [Benchmarking](benchmarking.md)
+- [イントロダクション](introduction.md)
+- [ベンチマーク](benchmarking.md)
 - [Build Configuration](build-configuration.md)
 - [Linting](linting.md)
 - [Profiling](profiling.md)
