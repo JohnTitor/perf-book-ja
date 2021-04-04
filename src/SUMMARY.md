@@ -18,7 +18,7 @@
 - [I/O](io.md)
 - [ログとデバッグ](logging-and-debugging.md)
 - [ラッパー型](wrapper-types.md)
-- [Machine Code](machine-code.md)
+- [マシンコード](machine-code.md)
 - [Parallelism](parallelism.md)
 - [General Tips](general-tips.md)
 - [Compile Times](compile-times.md)
