@@ -6,15 +6,15 @@
 
 [Rust Container チートシート]は一般的な Rust の型を視覚化しており、続くセクションの理解を助けてくれます。
 
-[Rust Container チートシート]: https://docs.google.com/presentation/d/1q-c7UAyrUlM-eZyTo1pd8SZ0qwA_wYxmPZVOQkoDmH4/
+[rust container チートシート]: https://docs.google.com/presentation/d/1q-c7UAyrUlM-eZyTo1pd8SZ0qwA_wYxmPZVOQkoDmH4/
 
 ## プロファイリング
 
 一般用途向けのプロファイラーが `malloc` や `free`、その他の関連する関数がホットであると示した場合には、割り当ての割合を減らし、代替となるアロケータを利用することを試してみる価値があることが多いでしょう。
 
-[DHAT] は割り当ての割合を減らすときに使える素晴らしいプロファイラーです。Linux やその他の Unix システム上で動作します。ホットな割り当ての場所とその割合をかなり正確に特定してくれます。実際の結果は測定されたものと異なるでしょうが、rustc では、実行される100万命令あたり10の割り当てを減らすことで観測できるレベルのパフォーマンス向上 (~1%) が見られました。
+[DHAT] は割り当ての割合を減らすときに使える素晴らしいプロファイラーです。Linux やその他の Unix システム上で動作します。ホットな割り当ての場所とその割合をかなり正確に特定してくれます。実際の結果は測定されたものと異なるでしょうが、rustc では、実行される 100 万命令あたり 10 の割り当てを減らすことで観測できるレベルのパフォーマンス向上 (~1%) が見られました。
 
-[DHAT]: https://www.valgrind.org/docs/manual/dh-manual.html
+[dhat]: https://www.valgrind.org/docs/manual/dh-manual.html
 
 これは例となる DHAT の出力です:
 
@@ -44,9 +44,9 @@ AP 1.1/25 (2 children) {
 
 [`Box`] は最もシンプルなヒープに置かれる (heap-allocated) 型です。`Box<T>` の値はヒープに置かれた `T` の値です。
 
-[`Box`]: https://doc.rust-lang.org/std/boxed/struct.Box.html
+[`box`]: https://doc.rust-lang.org/std/boxed/struct.Box.html
 
-`struct` や `enum` の1つあるいはそれ以上のフィールドを box 化することで、型を小さくできる場合があります (この詳細については [型のサイズ] というチャプターを参照してください)。
+`struct` や `enum` の 1 つあるいはそれ以上のフィールドを box 化することで、型を小さくできる場合があります (この詳細については [型のサイズ] というチャプターを参照してください)。
 
 [型のサイズ]: type-sizes.md
 
@@ -54,10 +54,10 @@ AP 1.1/25 (2 children) {
 
 ## `Rc`/`Arc`
 
-[`Rc`]/[`Arc`] は `Box` と似ていますが、ヒープ上の値は2つの参照カウントを持っています。これらの型は値の共有を可能にし、メモリ使用量を削減するための効果的な手段になり得ます。
+[`Rc`]/[`Arc`] は `Box` と似ていますが、ヒープ上の値は 2 つの参照カウントを持っています。これらの型は値の共有を可能にし、メモリ使用量を削減するための効果的な手段になり得ます。
 
-[`Rc`]: https://doc.rust-lang.org/std/rc/struct.Rc.html
-[`Arc`]: https://doc.rust-lang.org/std/sync/struct.Arc.html
+[`rc`]: https://doc.rust-lang.org/std/rc/struct.Rc.html
+[`arc`]: https://doc.rust-lang.org/std/sync/struct.Arc.html
 
 しかし、めったに共有されないような値に使われると、ヒープに置かれないような値までヒープに置くことで割り当ての割合を大きくしてしまう恐れがあります。
 
@@ -69,26 +69,26 @@ AP 1.1/25 (2 children) {
 
 [`Vec`] はヒープに置かれる型で、割り当ての数を最適化したり、無駄なスペースの量を最小化したりする大きな余地があります。このためにはその要素がどのように保持されるかについて理解しなければなりません。
 
-[`Vec`]: https://doc.rust-lang.org/std/vec/struct.Vec.html
+[`vec`]: https://doc.rust-lang.org/std/vec/struct.Vec.html
 
-`Vec` には3つの要素があります。長さ、容量、そしてポインタです。ポインタは容量と要素の大きさが0でない場合にはヒープに置かれたメモリを指します。そうでない場合は、割り当てられたメモリを指すことはありません。
+`Vec` には 3 つの要素があります。長さ、容量、そしてポインタです。ポインタは容量と要素の大きさが 0 でない場合にはヒープに置かれたメモリを指します。そうでない場合は、割り当てられたメモリを指すことはありません。
 
-`Vec` 自体がヒープに置かれないとしても、その要素 (存在していてサイズが0でない場合) はいつもヒープに置かれます。もしサイズが0でない要素が存在する場合、それらの要素を保持するメモリは、追加の要素のためのスペースを開けておくことにより、必要より大きくなっている場合があります。現在ある要素の数が長さとなり、再度割り当てることなく要素を置ける数というのが容量になります。
+`Vec` 自体がヒープに置かれないとしても、その要素 (存在していてサイズが 0 でない場合) はいつもヒープに置かれます。もしサイズが 0 でない要素が存在する場合、それらの要素を保持するメモリは、追加の要素のためのスペースを開けておくことにより、必要より大きくなっている場合があります。現在ある要素の数が長さとなり、再度割り当てることなく要素を置ける数というのが容量になります。
 
 ベクタが現在の容量を増やす必要が出てきた場合、その要素はより大きなヒープ割り当てにコピーされ、古いヒープ割り当ては解放されます。
 
 ### `Vec` の増大
 
-一般的な方法で ([`vec![]`][vec macro]、[`Vec::new`] あるいは [`Vec::default`]) 作られた新しい空の `Vec` の長さと容量は0であり、ヒープ割り当てを必要としません。もし個々の要素をその `Vec` の最後に繰り返し追加した場合、定期的に再割り当てが発生します。増大させる方法 (strategy) は指定されていませんが、執筆時では quasi-doubling strategy が採用されています。この方法では 0、4、8、16、32、64…、のように容量が遷移していきます ([多くの割り当てを避ける]ため、これは1と2を飛ばして0から4へと容量を増やします)。ベクタが増大するにつれ、再割り当ての頻度は指数関数的に減っていきますが、無駄になる可能性のある余分な容量は指数関数的に増えていきます。
+一般的な方法で ([`vec![]`][vec macro]、[`Vec::new`] あるいは [`Vec::default`]) 作られた新しい空の `Vec` の長さと容量は 0 であり、ヒープ割り当てを必要としません。もし個々の要素をその `Vec` の最後に繰り返し追加した場合、定期的に再割り当てが発生します。増大させる方法 (strategy) は指定されていませんが、執筆時では quasi-doubling strategy が採用されています。この方法では 0、4、8、16、32、64…、のように容量が遷移していきます ([多くの割り当てを避ける]ため、これは 1 と 2 を飛ばして 0 から 4 へと容量を増やします)。ベクタが増大するにつれ、再割り当ての頻度は指数関数的に減っていきますが、無駄になる可能性のある余分な容量は指数関数的に増えていきます。
 
 [vec macro]: https://doc.rust-lang.org/std/macro.vec.html
-[`Vec::new`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.new
-[`Vec::default`]: https://doc.rust-lang.org/std/default/trait.Default.html#tymethod.default
+[`vec::new`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.new
+[`vec::default`]: https://doc.rust-lang.org/std/default/trait.Default.html#tymethod.default
 [多くの割り当てを避ける]: https://github.com/rust-lang/rust/pull/72227
 
 この増大の仕組みは要素を増やしていけるデータ構造では一般的で、一般用途では理にかなっているものですが、事前にベクタの長さが分かっている場合には、より効率的なことを行えます。ホットなベクタの割り当て場所 (例えばホットな [`Vec::push`] の呼び出しなど) がある場合は、そこでベクタの長さを出力するために [`eprintln!`] を使い、その後長さの分布を見定めるために ([`counts`] などを使って) 後処理をする価値があります。例えば、たくさんの短いベクタがあったり、それよりすくない数のとても長いベクタがあったりするでしょう。割り当て場所を最適化する一番良い方法はその状況に大きく依存します。
 
-[`Vec::push`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.push
+[`vec::push`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.push
 [`eprintln!`]: https://doc.rust-lang.org/std/macro.eprintln.html
 [`counts`]: https://github.com/nnethercote/counts/
 
@@ -111,30 +111,30 @@ AP 1.1/25 (2 children) {
 
 ### 長い `Vec`
 
-ベクタの最小の、あるいは実際の大きさをしっている場合、[`Vec::with_capacity`]、[`Vec::reserve`]、あるいは [`Vec::reserve_exact`] を使って特定の容量を確保できます。例えば、あるベクタが少なくとも20個の要素を持つことが分かっている場合、これらの関数は直ちに一回のの割り当てで少なくとも20の容量を持つベクタを生成します。反対に一度に1つずつアイテムを挿入した場合には4回の割り当てを行うことになります (容量について、4、8、16、そして32)。
+ベクタの最小の、あるいは実際の大きさをしっている場合、[`Vec::with_capacity`]、[`Vec::reserve`]、あるいは [`Vec::reserve_exact`] を使って特定の容量を確保できます。例えば、あるベクタが少なくとも 20 個の要素を持つことが分かっている場合、これらの関数は直ちに一回のの割り当てで少なくとも 20 の容量を持つベクタを生成します。反対に一度に 1 つずつアイテムを挿入した場合には 4 回の割り当てを行うことになります (容量について、4、8、16、そして 32)。
 
 - [**Example**](https://github.com/rust-lang/rust/pull/77990/commits/a7f2bb634308a5f05f2af716482b67ba43701681)
 
-[`Vec::with_capacity`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.with_capacity
-[`Vec::reserve`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.reserve
-[`Vec::reserve_exact`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.reserve_exact
+[`vec::with_capacity`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.with_capacity
+[`vec::reserve`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.reserve
+[`vec::reserve_exact`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.reserve_exact
 
 ベクタの最大長を知っている場合、上記の関数は不必要に余分なスペースを割り当てないでいいようにしてくれます。同様に、[`Vec::shrink_to_fit`] は余分なスペースを最小化するために使えますが、再割り当てが必要となる場合があることに注意してください。
 
-[`Vec::shrink_to_fit`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.shrink_to_fit
+[`vec::shrink_to_fit`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.shrink_to_fit
 
 ## `String`
 
 [`String`] はヒープに置かれるバイト列を持ちます。`String` の表現と操作は `Vec<u8>` によく似ています。増大と容量に関する多くの `Vec` メソッドと同等なものが `String` にもあります。例えば [`String::with_capacity`] などです。
 
-[`String`]: https://doc.rust-lang.org/std/string/struct.String.html
-[`String::with_capacity`]: https://doc.rust-lang.org/std/string/struct.String.html#method.with_capacity
+[`string`]: https://doc.rust-lang.org/std/string/struct.String.html
+[`string::with_capacity`]: https://doc.rust-lang.org/std/string/struct.String.html#method.with_capacity
 
 [`smallstr`] クレートの `SmallString` 型は `SmallVec` 型に似ています。
 
 [`smallstr`]: https://crates.io/crates/smallstr
 
-[`smartstring`] クレートの `String` 型は std の `String` の代替であり、3語分以下の文字列についてヒープ割り当てを回避します。64-bit プラットフォーム上では、これは、23以下のASCII文字を合わせたすべての文字列を含む、24 bytes以下の任意の文字列となります。
+[`smartstring`] クレートの `String` 型は std の `String` の代替であり、3 語分以下の文字列についてヒープ割り当てを回避します。64-bit プラットフォーム上では、これは、23 以下の ASCII 文字を合わせたすべての文字列を含む、24 bytes 以下の任意の文字列となります。
 
 - [**Example**](https://github.com/djc/topfew-rs/commit/803fd566e9b889b7ba452a2a294a3e4df76e6c4c)
 
@@ -148,27 +148,27 @@ AP 1.1/25 (2 children) {
 
 [`HashSet`] や [`HashMap`] はハッシュテーブルです。割り当てという文脈では、それらの表現や操作は `Vec` のそれに似ています。それらはキーや値を保持しつつ単一の継続したヒープ割り当てを行い、テーブルの拡大に必要となる限り再割り当てされます。増大と容量に関する多くの `Vec` のメソッドと同様のものが `HashSet`/`HashMap` にもあります。例えば、[`HashSet::with_capacity`] などです。
 
-[`HashSet`]: https://doc.rust-lang.org/std/collections/struct.HashSet.html
-[`HashMap`]: https://doc.rust-lang.org/std/collections/struct.HashMap.html
-[`HashSet::with_capacity`]: https://doc.rust-lang.org/std/collections/struct.HashSet.html#method.with_capacity
+[`hashset`]: https://doc.rust-lang.org/std/collections/struct.HashSet.html
+[`hashmap`]: https://doc.rust-lang.org/std/collections/struct.HashMap.html
+[`hashset::with_capacity`]: https://doc.rust-lang.org/std/collections/struct.HashSet.html#method.with_capacity
 
 ## `Cow`
 
 時々、`&str` のような、何らかの借用されたデータを使いたい場合があります。これは殆どの場合読み取り専用ですが、たまに変更する必要が出てきます。毎回そのデータをクローンするのは無駄が多いです。その代わりに[`Cow`] 型を通して、借用/所有された両方のデータを表現できる、"clone-on-write" なセマンティクスを使うことができます。
 
-[`Cow`]: https://doc.rust-lang.org/std/borrow/enum.Cow.html
+[`cow`]: https://doc.rust-lang.org/std/borrow/enum.Cow.html
 
 通常、借用された値 `x` から始めるときは、`Cow::Borrowed(x)` を使って `Cow` の中に `x` を包みます。`Cow` は [`Deref`] を実装しているので、`Cow` が持っているデータに対して不変 (non-mutating) なメソッドを直接呼び出せます。もし可変である必要がある場合には、[`Cow::to_mut`] によって、必要に応じてクローンしつつ、所有されている値への可変参照を取得できます。
 
-[`Deref`]: https://doc.rust-lang.org/std/ops/trait.Deref.html
-[`Cow::to_mut`]: https://doc.rust-lang.org/std/borrow/enum.Cow.html#method.to_mut
+[`deref`]: https://doc.rust-lang.org/std/ops/trait.Deref.html
+[`cow::to_mut`]: https://doc.rust-lang.org/std/borrow/enum.Cow.html#method.to_mut
 
 `Cow` をうまく動かすのは難しいかもしれませんが、試行錯誤する価値は十分あります。
 
-- [**Example 1**](https://github.com/rust-lang/rust/pull/37064/commits/b043e11de2eb2c60f7bfec5e15960f537b229e20)
-- [**Example 2**](https://github.com/rust-lang/rust/pull/50855/commits/ad471452ba6fbbf91ad566dc4bdf1033a7281811)
-- [**Example 3**](https://github.com/rust-lang/rust/pull/56336/commits/787959c20d062d396b97a5566e0a766d963af022)
-- [**Example 4**](https://github.com/rust-lang/rust/pull/68848/commits/67da45f5084f98eeb20cc6022d68788510dc832a)
+- [**例 1**](https://github.com/rust-lang/rust/pull/37064/commits/b043e11de2eb2c60f7bfec5e15960f537b229e20)
+- [**例 2**](https://github.com/rust-lang/rust/pull/50855/commits/ad471452ba6fbbf91ad566dc4bdf1033a7281811)
+- [**例 3**](https://github.com/rust-lang/rust/pull/56336/commits/787959c20d062d396b97a5566e0a766d963af022)
+- [**例 4**](https://github.com/rust-lang/rust/pull/68848/commits/67da45f5084f98eeb20cc6022d68788510dc832a)
 
 ## `clone`
 
@@ -191,15 +191,15 @@ assert_eq!(v1.capacity(), 99);
 
 時々、Rust コードには、(a) プログラマーのミス、(b) コードの変更により以前必要だった `clone` 呼び出しが不必要になった、などの理由で、不必要な `clone` 呼び出しが含まれることがあります。もし必要そうでないホットな `clone` の呼び出しを見つけた場合には、単純に削除できることもあります。
 
-- [**Example 1**](https://github.com/rust-lang/rust/pull/37318/commits/e382267cfb9133ef12d59b66a2935ee45b546a61)
-- [**Example 2**](https://github.com/rust-lang/rust/pull/37705/commits/11c1126688bab32f76dbe1a973906c7586da143f)
-- [**Example 3**](https://github.com/rust-lang/rust/pull/64302/commits/36b37e22de92b584b9cf4464ed1d4ad317b798be)
+- [**例 1**](https://github.com/rust-lang/rust/pull/37318/commits/e382267cfb9133ef12d59b66a2935ee45b546a61)
+- [**例 2**](https://github.com/rust-lang/rust/pull/37705/commits/11c1126688bab32f76dbe1a973906c7586da143f)
+- [**例 3**](https://github.com/rust-lang/rust/pull/64302/commits/36b37e22de92b584b9cf4464ed1d4ad317b798be)
 
 ## `to_owned`
 
 [`ToOwned::to_owned`] は多くの一般的な型に対して実装されています。これは借用されたデータから所有されたデータを作成します。一般的にはクローンが必要で、それによりしばしばヒープ割り当てが発生します。例えば、これは `&str` から `String` を作成するときに使われます。
 
-[`ToOwned::to_owned`]: https://doc.rust-lang.org/std/borrow/trait.ToOwned.html#tymethod.to_owned
+[`toowned::to_owned`]: https://doc.rust-lang.org/std/borrow/trait.ToOwned.html#tymethod.to_owned
 
 時々、所有されたコピーでなく構造体にある借用されたデータへの参照を保持することで、`to_owned` 呼び出しを回避できることがあります。これは構造体にライフタイム注釈を必要とし、コードを複雑にします。そのため、プロファイリングやベンチマークでそうする価値があると分かった場合にのみ適用されるべきです。
 
@@ -233,13 +233,13 @@ fn do_stuff(x: u32, y: u32, vec: &mut Vec<u32>) {
 
 [`clear`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.clear
 
-同様に、構造体の中に "workhorse" なコレクションを保持しておく価値がある場合もあります。これは繰り返し呼び出される1つ以上のメソッドの中で再利用されます。
+同様に、構造体の中に "workhorse" なコレクションを保持しておく価値がある場合もあります。これは繰り返し呼び出される 1 つ以上のメソッドの中で再利用されます。
 
 ## 代替となるアロケータを使用する
 
 割り当ての多い Rust プログラムのパフォーマンスを向上させる別の手段として、デフォルトの (システム) アロケータを代替のものに置き換えるというものがあります。正確な影響は個々のプログラムと選ばれるアロケータに依存します。また、各プラットフォームのシステムアロケータはそれぞれ長所短所を持っているので、プラットフォームによってもその影響は異なります。異なるアロケータの使用はバイナリサイズにも影響します。
 
-人気のある代替アロケータの1つに [`jemallocator`] クレートを通して使える [jemalloc] があります。使用するには依存関係を `Cargo.toml` に追記します:
+人気のある代替アロケータの 1 つに [`jemallocator`] クレートを通して使える [jemalloc] があります。使用するには依存関係を `Cargo.toml` に追記します:
 
 ```toml
 [dependencies]
@@ -253,7 +253,7 @@ jemallocator = "0.3.2"
 static GLOBAL: jemallocator::Jemalloc = jemallocator::Jemalloc;
 ```
 
-もう1つの代替となるアロケータは [`mimalloc`] を通して使える [mimalloc] です。
+もう 1 つの代替となるアロケータは [`mimalloc`] を通して使える [mimalloc] です。
 
 [jemalloc]: https://github.com/jemalloc/jemalloc
 [`jemallocator`]: https://crates.io/crates/jemallocator

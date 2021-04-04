@@ -4,7 +4,7 @@
 
 非常に頻繁にアクセスされる小さなコード片がある場合には、非効率な部分がないか生成されたマシンコードを調べる価値があるかもしれません。[Compiler Explorer] というウェブサイトでは、そのような調査を行うための素晴らしい環境が整っています。
 
-[Compiler Explorer]: https://godbolt.org/
+[compiler explorer]: https://godbolt.org/
 
 関連して、[`core::arch`] モジュールはアーキテクチャ固有の命令へのアクセスを提供しています。その多くは SIMD 命令に関するものです。
 
@@ -12,5 +12,5 @@
 
 インデックス変数の範囲に対してアサーションを追加することで、ループ内の境界チェックを避けられる場合があります。これは高度なテクニックで、境界チェックが本当に取り除かれているか生成されたコードを確かめる必要があります。
 
-- [**Example 1**](https://github.com/rust-random/rand/pull/960/commits/de9dfdd86851032d942eb583d8d438e06085867b)
-- [**Example 2**](https://github.com/image-rs/jpeg-decoder/pull/167/files)
+- [**例 1**](https://github.com/rust-random/rand/pull/960/commits/de9dfdd86851032d942eb583d8d438e06085867b)
+- [**例 2**](https://github.com/image-rs/jpeg-decoder/pull/167/files)

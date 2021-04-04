@@ -20,5 +20,5 @@
 - [ラッパー型](wrapper-types.md)
 - [マシンコード](machine-code.md)
 - [並列処理](parallelism.md)
-- [General Tips](general-tips.md)
+- [一般的なアドバイス](general-tips.md)
 - [Compile Times](compile-times.md)
