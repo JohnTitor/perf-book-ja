@@ -2,6 +2,8 @@
 
 # ハッシュ化
 
+([原文](https://nnethercote.github.io/perf-book/hashing.html))
+
 `HashSet` と `HashMap` は広く使われる2つの型です。デフォルトのハッシュアルゴリズムは指定されていませんが、執筆時点では [SipHash 1-3] と呼ばれるアルゴリズムがデフォルトとなっています。このアルゴリズムは高い品質を持っており、衝突に対する高い保護も提供しますが、その一方で、特に整数のような短いキーについては、遅いという特徴があります。
 
 [SipHash 1-3]: https://en.wikipedia.org/wiki/SipHash

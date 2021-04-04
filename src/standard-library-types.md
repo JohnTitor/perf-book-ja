@@ -2,6 +2,8 @@
 
 # 標準ライブラリの型
 
+([原文](https://nnethercote.github.io/perf-book/standard-library-types.html))
+
 [`Vec`]、[`Option`]、[`Result`]、そして [`Rc`]/[`Arc`] のような、よく使われる標準ライブラリの型のドキュメントを読むことは、パフォーマンスを向上させるのに使える面白い関数を見つけることに繋がります。
 
 [`vec`]: https://doc.rust-lang.org/std/vec/struct.Vec.html

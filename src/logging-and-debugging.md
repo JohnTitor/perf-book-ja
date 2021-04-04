@@ -2,6 +2,8 @@
 
 # ログとデバッグ
 
+([原文](https://nnethercote.github.io/perf-book/logging-and-debugging.html))
+
 時々、ログやデバッグのためのコードがプログラムの速度を著しく低下させることがあります。ログやデバッグのためのコード自体が遅いこともあれば、データをそのようなコードに送るためのデータコレクションコードが遅いこともあります。ログやデバッグを行わない場合には、そのような目的のためのコードが不必要に使われていないかを確かめてください。
 
 - [**例 1**](https://github.com/rust-lang/rust/pull/50246/commits/2e4f66a86f7baa5644d18bb2adc07a8cd1c7409d)

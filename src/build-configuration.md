@@ -2,6 +2,8 @@
 
 # ビルド設定
 
+([原文](https://nnethercote.github.io/perf-book/build-configuration.html))
+
 正しいビルド設定を行うことで、コードを変更することなく Rust プログラムのパフォーマンスを最大化することができます。
 
 ## リリースビルド

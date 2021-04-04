@@ -1,10 +1,9 @@
-<!-- commit: https://github.com/nnethercote/perf-book/commit/49574fa438d1ba16d902dfc45e3835e642d03e4e -->
-
 # Summary
 
 [タイトルページ](title-page.md)
 
 - [イントロダクション](introduction.md)
+- [翻訳について](translation-notice.md)
 - [ベンチマーク](benchmarking.md)
 - [ビルド設定](build-configuration.md)
 - [Linting](linting.md)

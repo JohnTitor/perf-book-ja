@@ -2,6 +2,8 @@
 
 # Linting
 
+([原文](https://nnethercote.github.io/perf-book/linting.html))
+
 [Clippy] は Rust コード内のよくある間違いを捕捉する lint のコレクションです。これは、一般の Rust コードで実行するには素晴らしいツールです。また、パフォーマンスの最適化を損なう原因となるコードパターンに関する様々な lint を持っています。そのため、パフォーマンスについても手助けをしてくれます。
 
 [Clippy]: https://github.com/rust-lang/rust-clippy

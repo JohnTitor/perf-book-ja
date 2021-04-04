@@ -2,6 +2,8 @@
 
 # イテレータ
 
+([原文](https://nnethercote.github.io/perf-book/iterators.html))
+
 ## `collect` と `extend`
 
 [`Iterator::collect`] はイテレータを `Vec` のようなコレクション型に変換します。これは通常割り当てを必要とします。もしコレクション型がその後再びイテレートされるだけなのであれば、`collect` の呼び出しは避けるべきです。

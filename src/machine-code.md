@@ -2,6 +2,8 @@
 
 # マシンコード
 
+([原文](https://nnethercote.github.io/perf-book/machine-code.html))
+
 非常に頻繁にアクセスされる小さなコード片がある場合には、非効率な部分がないか生成されたマシンコードを調べる価値があるかもしれません。[Compiler Explorer] というウェブサイトでは、そのような調査を行うための素晴らしい環境が整っています。
 
 [compiler explorer]: https://godbolt.org/

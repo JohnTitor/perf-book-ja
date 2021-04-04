@@ -2,6 +2,8 @@
 
 # I/O
 
+([原文](https://nnethercote.github.io/perf-book/io.html))
+
 ## ロック
 
 Rust の [`print!`] 及び [`println!`] マクロは呼び出しごとに標準出力をロックします。これらのマクロを繰り返し呼び出すときには、手ずから標準出力をロックした方が良い場合があります。
