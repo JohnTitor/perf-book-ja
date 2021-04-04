@@ -9,7 +9,7 @@
 - [ビルド設定](build-configuration.md)
 - [Linting](linting.md)
 - [プロファイリング](profiling.md)
-- [Inlining](inlining.md)
+- [インライン化](inlining.md)
 - [Hashing](hashing.md)
 - [Heap Allocations](heap-allocations.md)
 - [Type Sizes](type-sizes.md)
