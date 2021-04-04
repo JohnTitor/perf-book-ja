@@ -2,6 +2,8 @@
 
 The Japanese translation for ["The Rust Performance Book"].
 
+["The Rust Performance Book"]: https://nnethercote.github.io/perf-book
+
 ## License
 
 Licensed under either of
