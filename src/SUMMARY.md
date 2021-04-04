@@ -10,7 +10,7 @@
 - [Linting](linting.md)
 - [プロファイリング](profiling.md)
 - [インライン化](inlining.md)
-- [Hashing](hashing.md)
+- [ハッシュ化](hashing.md)
 - [Heap Allocations](heap-allocations.md)
 - [Type Sizes](type-sizes.md)
 - [Standard Library Types](standard-library-types.md)
