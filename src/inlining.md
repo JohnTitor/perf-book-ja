@@ -69,7 +69,7 @@ fn my_function() {
 # fn one() {};
 # fn two() {};
 # fn three() {};
-// Use this at the hot call site.
+// ホットなコールサイトではこれを使う
 #[inline(always)]
 fn inlined_my_function() {
     one();
@@ -77,7 +77,7 @@ fn inlined_my_function() {
     three();
 }
 
-// Use this at the cold call sites.
+// コールドなコールサイト (ホットでないコールサイト) にはこれを使う
 #[inline(never)]
 fn uninlined_my_function() {
     inlined_my_function();
