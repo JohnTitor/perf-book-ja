@@ -1,0 +1,26 @@
+{
+  "name": "perf-book-ja",
+  "version": "1.0.0",
+  "description": "The Japanese translation for \"The Rust Performance Book\".",
+  "main": "index.js",
+  "scripts": {
+    "lint": "textlint \"src/**\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JohnTitor/perf-book-ja.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT OR Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/JohnTitor/perf-book-ja/issues"
+  },
+  "homepage": "https://github.com/JohnTitor/perf-book-ja#readme",
+  "devDependencies": {
+    "textlint": "^11.9.0",
+    "textlint-filter-rule-comments": "^1.2.2",
+    "textlint-rule-preset-ja-technical-writing": "^4.0.1",
+    "textlint-rule-preset-jtf-style": "^2.3.8"
+  }
+}

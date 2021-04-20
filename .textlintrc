@@ -1,0 +1,15 @@
+{
+  "filters": {
+    "comments": true
+  },
+  "rules": {
+    "preset-ja-technical-writing": {
+      "no-exclamation-question-mark": false,
+      "sentence-length": false,
+      "ja-no-mixed-period": false
+    },
+    "preset-jtf-style": {
+      "3.1.1.全角文字と半角文字の間": false
+    }
+  }
+}
