@@ -31,7 +31,7 @@
 
 ## `Option` と `Result`
 
-[`Option::ok_or`] は `Option` を `Result` に変換します。もし `Option` の値が `None` だった場合には、`ok_or` の引数が `err` のパラメータとして渡されます。`err` は先行評価されます。もしそのコストが大きい場合には代わりに [`Option::ok_or_else`] を使用して、クロージャを通してそのエラーの値を遅延評価するようにすべきです。例えばこれは:
+[`Option::ok_or`] は `Option` を `Result` に変換します。もし `Option` の値が `None` だった場合には、`ok_or` の引数が `err` のパラメータとして渡されます。`err` は先行評価されます。もしそのコストが大きい場合には代わりに [`Option::ok_or_else`] を使用して、クロージャを通してそのエラーの値を遅延評価するようにすべきです。例えばこれは：
 
 ```rust
 # fn expensive() {}
@@ -39,7 +39,7 @@
 let r = o.ok_or(expensive()); // 常に `expensive()` として評価される
 ```
 
-このように変更すべきです:
+このように変更すべきです：
 
 ```rust
 # fn expensive() {}

@@ -10,18 +10,18 @@
 
 [`iterator::collect`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.collect
 
-上記の理由から、`Vec<T>` よりも `impl Iterator<Item=T>` といったイテレータ型を関数から返した方が良い場合が多いです。ただ、[この記事]で説明されているように、そういった返り値には追加のライフタイム注釈が必要となる場合があることに注意してください。
+上記の理由から、`Vec<T>` よりも `impl Iterator<Item=T>` といったイテレータ型を関数から返した方が多くの場合好ましいです。ただ、[この記事]で説明されているように、そういった返り値には追加のライフタイム注釈が必要となる場合があることに注意してください。
 
 - [**例**](https://github.com/rust-lang/rust/pull/77990/commits/660d8a6550a126797aa66a417137e39a5639451b)
 
 [この記事]: https://blog.katona.me/2019/12/29/Rust-Lifetimes-and-Iterators/
 
-同様に、イテレータを `Vec` にして [`append`] を使うよりも、イテレータを使って既存のコレクション型 (`Vec` など) を拡張するために [`extend`] を使った方が良いでしょう。
+同様に、イテレータを `Vec` にして [`append`] を使うよりも、イテレータを使って既存のコレクション型（`Vec` など）を拡張するために [`extend`] を使った方が良いでしょう。
 
 [`extend`]: https://doc.rust-lang.org/std/iter/trait.Extend.html#tymethod.extend
 [`append`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.append
 
-最後に、イテレータを書くときは、可能であれば [`Iterator::size_hint`] か [`ExactSizeIterator::len`] メソッドを実装した方がいい場合が多いです。その理由として、イテレータによって生成される要素数についての事前情報が手に入るため、イテレータを使う `collect` や `extend` といった呼び出しにおいてより小さな割り当てを行える、というものがあります。
+最後に、イテレータを書くときは、可能であれば [`Iterator::size_hint`] か [`ExactSizeIterator::len`] メソッドを実装した方が多くの場合好ましいです。その理由として、イテレータによって生成される要素数についての事前情報が手に入るため、イテレータを使う `collect` や `extend` といった呼び出しにおいてより小さな割り当てを行える、というものがあります。
 
 [`iterator::size_hint`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.size_hint
 [`exactsizeiterator::len`]: https://doc.rust-lang.org/std/iter/trait.ExactSizeIterator.html#method.len

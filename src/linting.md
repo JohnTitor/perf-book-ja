@@ -8,7 +8,7 @@
 
 [Clippy]: https://github.com/rust-lang/rust-clippy
 
-インストールできたら、実行するのは簡単です:
+インストールできたら、実行するのは簡単です：
 
 ```bash
 cargo clippy

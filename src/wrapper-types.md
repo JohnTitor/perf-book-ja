@@ -4,12 +4,12 @@
 
 ([原文](https://nnethercote.github.io/perf-book/wrapper-types.html))
 
-Rust は [`RefCell`] や [`Mutex`] のような、値に対して特別な動作を行う様々なラッパー型を提供しています。そのような値へのアクセスは無視できない回数になることもあります。もしそのような複数の値が同時にアクセスされる場合には、それらを単一のラッパーに包んだ方が良いでしょう。
+Rust は [`RefCell`] や [`Mutex`] のような、値に対して特別な働きを持つ様々なラッパー型を提供しています。そのような値へのアクセスは無視できない回数になることもあります。もしそのような複数の値が同時にアクセスされる場合には、それらを単一のラッパーに包んだ方が良いでしょう。
 
 [`refcell`]: https://doc.rust-lang.org/std/cell/struct.RefCell.html
 [`mutex`]: https://doc.rust-lang.org/std/sync/struct.Mutex.html
 
-例えば以下のような構造体は:
+例えば以下のような構造体は：
 
 ```rust
 # use std::sync::{Arc, Mutex};
@@ -19,7 +19,7 @@ struct S {
 }
 ```
 
-このように表現した方が良いでしょう:
+このように表現した方が良いでしょう：
 
 ```rust
 # use std::sync::{Arc, Mutex};
