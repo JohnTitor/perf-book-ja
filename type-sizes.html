@@ -1,0 +1,357 @@
+<!DOCTYPE HTML>
+<html lang="ja" class="sidebar-visible no-js rust">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>型のサイズ - The Rust Performance Book</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "rust";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('rust')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">タイトルページ</a></li><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> イントロダクション</a></li><li class="chapter-item expanded "><a href="translation-notice.html"><strong aria-hidden="true">2.</strong> 翻訳について</a></li><li class="chapter-item expanded "><a href="benchmarking.html"><strong aria-hidden="true">3.</strong> ベンチマーク</a></li><li class="chapter-item expanded "><a href="build-configuration.html"><strong aria-hidden="true">4.</strong> ビルド設定</a></li><li class="chapter-item expanded "><a href="linting.html"><strong aria-hidden="true">5.</strong> Linting</a></li><li class="chapter-item expanded "><a href="profiling.html"><strong aria-hidden="true">6.</strong> プロファイリング</a></li><li class="chapter-item expanded "><a href="inlining.html"><strong aria-hidden="true">7.</strong> インライン化</a></li><li class="chapter-item expanded "><a href="hashing.html"><strong aria-hidden="true">8.</strong> ハッシュ化</a></li><li class="chapter-item expanded "><a href="heap-allocations.html"><strong aria-hidden="true">9.</strong> ヒープ割り当て</a></li><li class="chapter-item expanded "><a href="type-sizes.html" class="active"><strong aria-hidden="true">10.</strong> 型のサイズ</a></li><li class="chapter-item expanded "><a href="standard-library-types.html"><strong aria-hidden="true">11.</strong> 標準ライブラリの型</a></li><li class="chapter-item expanded "><a href="iterators.html"><strong aria-hidden="true">12.</strong> イテレータ</a></li><li class="chapter-item expanded "><a href="io.html"><strong aria-hidden="true">13.</strong> I/O</a></li><li class="chapter-item expanded "><a href="logging-and-debugging.html"><strong aria-hidden="true">14.</strong> ログとデバッグ</a></li><li class="chapter-item expanded "><a href="wrapper-types.html"><strong aria-hidden="true">15.</strong> ラッパー型</a></li><li class="chapter-item expanded "><a href="machine-code.html"><strong aria-hidden="true">16.</strong> マシンコード</a></li><li class="chapter-item expanded "><a href="parallelism.html"><strong aria-hidden="true">17.</strong> 並列処理</a></li><li class="chapter-item expanded "><a href="general-tips.html"><strong aria-hidden="true">18.</strong> 一般的なアドバイス</a></li><li class="chapter-item expanded "><a href="compile-times.html"><strong aria-hidden="true">19.</strong> コンパイル時間</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">The Rust Performance Book</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                        <a href="https://github.com/JohnTitor/perf-book-ja" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <!-- commit: https://github.com/nnethercote/perf-book/commit/7cdbb476e0c1b40db89f394a40caafe65688933e -->
+<h1 id="型のサイズ"><a class="header" href="#型のサイズ">型のサイズ</a></h1>
+<p>(<a href="https://nnethercote.github.io/perf-book/type-sizes.html">原文</a>)</p>
+<p>しばしばインスタンス化される型を縮小する（shrink）ことは、パフォーマンスの向上に寄与します。</p>
+<p>例えば、もしメモリ使用量が高い場合、<a href="https://www.valgrind.org/docs/manual/dh-manual.html">DHAT</a> や <a href="https://github.com/KDE/heaptrack">heaptrack</a> のようなヒーププロファイラーを使うと、ホットな割り当て位置（allocation points）とそれに付随する型を特定できます。それらの型を縮小することはピーク時のメモリ使用量を減らすことができ、またメモリへの頻繁なアクセスやキャッシュへの負担を減らすことでパフォーマンスを改善できる可能性があります。</p>
+<p>それに加え、128 bytes より大きい Rust の型はインライン化されず <code>memcpy</code> によってコピーされます。もしプロファイラー上で <code>memcpy</code> の使用量が無視できないほど大きいことが分かった場合、DHAT の &quot;copy profiling&quot; モードを使えば、ホットな <code>memcpy</code> 呼び出しの位置やそれに付随する型について正確に把握できます。それらの型を 128 bytes 以下に縮小することで、<code>memcpy</code> の呼び出しを避けメモリへのアクセスを減らすことができ、コードの高速化が期待できます。</p>
+<h2 id="型のサイズを測定する"><a class="header" href="#型のサイズを測定する">型のサイズを測定する</a></h2>
+<p><a href="https://doc.rust-lang.org/std/mem/fn.size_of.html"><code>std::mem::size_of</code></a> は byte 単位での型のサイズを教えてくれますが、しばしばその正確なレイアウトも知りたいことがあるでしょう。例えば、列挙型（enum）は他より大きい1つの列挙子により、驚くほど大きくなることがあります。</p>
+<p><code>-Zprint-type-sizes</code> オプションはそれを正確に確認できます。このオプションは stable Rust では使用できず、代わりに nightly Rust を使う必要があります。これは Cargo を使った呼び出しの一例です：</p>
+<pre><code class="language-bash">RUSTFLAGS=-Zprint-type-sizes cargo +nightly build --release
+</code></pre>
+<p>また、以下は rustc を使った呼び出しの一例です：</p>
+<pre><code class="language-bash">rustc +nightly -Zprint-type-sizes input.rs
+</code></pre>
+<p>これにより、使用中のすべての型のサイズ、レイアウト、及びアラインメントの詳細を見ることができます。例えば下記の型について考えます：</p>
+<pre><pre class="playground"><code class="language-rust edition2018">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum E {
+    A,
+    B(i32),
+    C(u64, u8, u64, u8),
+    D(Vec&lt;u32&gt;),
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><code>-Zprint-type-sizes</code> オプションは下記に加え、いくつかの組み込み型についての情報も出力します：</p>
+<pre><code class="language-text">print-type-size type: `E`: 32 bytes, alignment: 8 bytes
+print-type-size     discriminant: 1 bytes
+print-type-size     variant `D`: 31 bytes
+print-type-size         padding: 7 bytes
+print-type-size         field `.0`: 24 bytes, alignment: 8 bytes
+print-type-size     variant `C`: 23 bytes
+print-type-size         field `.1`: 1 bytes
+print-type-size         field `.3`: 1 bytes
+print-type-size         padding: 5 bytes
+print-type-size         field `.0`: 8 bytes, alignment: 8 bytes
+print-type-size         field `.2`: 8 bytes
+print-type-size     variant `B`: 7 bytes
+print-type-size         padding: 3 bytes
+print-type-size         field `.0`: 4 bytes, alignment: 4 bytes
+print-type-size     variant `A`: 0 bytes
+</code></pre>
+<p>出力を見ると以下のことが分かります：</p>
+<ul>
+<li>型のサイズとアラインメント</li>
+<li>（列挙型の場合）判定式（discriminant）のサイズ</li>
+<li>（列挙型の場合）サイズ降順にソートされた各列挙子のサイズ</li>
+<li>すべてのフィールドのサイズ、アラインメント、そして順序（<code>E</code> のサイズを最小化するためにコンパイラが <code>C</code> 列挙子のフィールドを並び替えていることに注意してください）</li>
+<li>すべてのパディングのサイズと場所</li>
+</ul>
+<p>ホットな型のレイアウトが分かったら、それを縮小するために複数を手法をとることができます。</p>
+<h2 id="フィールドの順序"><a class="header" href="#フィールドの順序">フィールドの順序</a></h2>
+<p>Rust コンパイラは、<code>#[repr(C)]</code> が指定されてない限り、サイズを最小化するために、自動的に構造体と列挙型のフィールドをソートします。そのため、フィールドの順序について心配する必要はありません。ホットな型のサイズを最小化する方法は他にもあります。</p>
+<h2 id="より小さい列挙型"><a class="header" href="#より小さい列挙型">より小さい列挙型</a></h2>
+<p>もし列挙型が大きな列挙子を持っている場合、1 つ以上のフィールドをボックス化することを検討しましょう。例えば、この型について：</p>
+<pre><pre class="playground"><code class="language-rust edition2018">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>type LargeType = [u8; 100];
+enum A {
+    X,
+    Y(i32),
+    Z(i32, LargeType),
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>こうできます：</p>
+<pre><pre class="playground"><code class="language-rust edition2018">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">type LargeType = [u8; 100];
+</span>enum A {
+    X,
+    Y(i32),
+    Z(Box&lt;(i32, LargeType)&gt;),
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>これにより、<code>A::Z</code> 列挙子について余分なヒープ割り当てを必要とする代わりに、型のサイズを抑えることができます。<code>A::Z</code> が比較的使われない場合には、パフォーマンスの向上をより期待できます。<code>Box</code> は、特に <code>match</code> パターンにおいて、<code>A::Z</code> をやや扱いづらくすることにも注意してください。</p>
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/37445/commits/a920e355ea837a950b484b5791051337cd371f5d"><strong>例 1</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/55346/commits/38d9277a77e982e49df07725b62b21c423b6428e"><strong>例 2</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/64302/commits/b972ac818c98373b6d045956b049dc34932c41be"><strong>例 3</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/64374/commits/2fcd870711ce267c79408ec631f7eba8e0afcdf6"><strong>例 4</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/64394/commits/7f0637da5144c7435e88ea3805021882f077d50c"><strong>例 5</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/71942/commits/27ae2f0d60d9201133e1f9ec7a04c05c8e55e665"><strong>例 6</strong></a></li>
+</ul>
+<h2 id="より小さい整数"><a class="header" href="#より小さい整数">より小さい整数</a></h2>
+<p>より小さい整数型を使用することで、型のサイズを縮小できる可能性は結構あります。例えば、インデックスに <code>usize</code> を使うというのはよくあることですが、それを <code>u32</code>、<code>u16</code>、あるいは <code>u8</code> 型で保持しておいて使用するときに <code>usize</code> へ型強制（coerce）してやるというのはそこそこな場面で合理的です。</p>
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/49993/commits/4d34bfd00a57f8a8bdb60ec3f908c5d4256f8a9a"><strong>例 1</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/50981/commits/8d0fad5d3832c6c1f14542ea0be038274e454524"><strong>例 2</strong></a></li>
+</ul>
+<h2 id="ボックス化されたスライス"><a class="header" href="#ボックス化されたスライス">ボックス化されたスライス</a></h2>
+<p>Rust のベクタには 3 つの要素があります。長さ、容量、そしてポインタです。もしあるベクタが将来変更されなさそうな場合、<a href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.into_boxed_slice"><code>Vec::into_boxed_slice</code></a> を使って <strong>ボックス化されたスライス（boxed slice）</strong> に変換できます。ボックス化されたスライスには 2 つの要素のみあります。長さとポインタです。余っている容量を解放するため、再割り当てが発生し得ます。</p>
+<pre><pre class="playground"><code class="language-rust edition2018">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::mem::{size_of, size_of_val};
+</span>let v: Vec&lt;u32&gt; = vec![1, 2, 3];
+assert_eq!(size_of_val(&amp;v), 3 * size_of::&lt;usize&gt;());
+
+let bs: Box&lt;[u32]&gt; = v.into_boxed_slice();
+assert_eq!(size_of_val(&amp;bs), 2 * size_of::&lt;usize&gt;());
+<span class="boring">}
+</span></code></pre></pre>
+<p>ボックス化されたスライスは、<a href="https://doc.rust-lang.org/std/primitive.slice.html#method.into_vec"><code>slice::into_vec</code></a> を使ってクローンや再割り当てをすることなくベクタに戻すことができます。</p>
+<p>The boxed slice can be converted back to a vector with <a href="https://doc.rust-lang.org/std/primitive.slice.html#method.into_vec"><code>slice::into_vec</code></a>
+without any cloning or a reallocation.</p>
+<h2 id="リグレッションを避ける"><a class="header" href="#リグレッションを避ける">リグレッションを避ける</a></h2>
+<p>そのサイズがパフォーマンスに影響を与えるほどある型がホットである場合は、それが誤ってリグレッションしないことを保証するために静的なアサーションを使うことをおすすめします。次の例は <a href="https://crates.io/crates/static_assertions"><code>static_assertions</code></a> クレートのマクロを使っています：</p>
+<pre><code class="language-rust ignore">  // この型は頻繁に使われているので、意図せず型のサイズが大きくならないことを確かめる。
+  #[cfg(target_arch = &quot;x86_64&quot;)]
+  static_assertions::assert_eq_size!(HotType, [u8; 64]);
+</code></pre>
+<!-- textlint-disable ja-technical-writing/no-doubled-joshi -->
+<p>ここでの <code>cfg</code> 属性は重要です。なぜならプラットフォームによって型のサイズが異なることがあるためです。アサーションを <code>x86_64</code>（最も広く使われているプラットフォーム）に限定することは、実際のリグレッションを防ぐ上で十分役に立つでしょう。</p>
+<!-- textlint-enable ja-technical-writing/no-doubled-joshi -->
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="heap-allocations.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="standard-library-types.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="heap-allocations.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="standard-library-types.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

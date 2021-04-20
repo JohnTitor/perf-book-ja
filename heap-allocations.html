@@ -1,0 +1,394 @@
+<!DOCTYPE HTML>
+<html lang="ja" class="sidebar-visible no-js rust">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>ヒープ割り当て - The Rust Performance Book</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "rust";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('rust')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">タイトルページ</a></li><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> イントロダクション</a></li><li class="chapter-item expanded "><a href="translation-notice.html"><strong aria-hidden="true">2.</strong> 翻訳について</a></li><li class="chapter-item expanded "><a href="benchmarking.html"><strong aria-hidden="true">3.</strong> ベンチマーク</a></li><li class="chapter-item expanded "><a href="build-configuration.html"><strong aria-hidden="true">4.</strong> ビルド設定</a></li><li class="chapter-item expanded "><a href="linting.html"><strong aria-hidden="true">5.</strong> Linting</a></li><li class="chapter-item expanded "><a href="profiling.html"><strong aria-hidden="true">6.</strong> プロファイリング</a></li><li class="chapter-item expanded "><a href="inlining.html"><strong aria-hidden="true">7.</strong> インライン化</a></li><li class="chapter-item expanded "><a href="hashing.html"><strong aria-hidden="true">8.</strong> ハッシュ化</a></li><li class="chapter-item expanded "><a href="heap-allocations.html" class="active"><strong aria-hidden="true">9.</strong> ヒープ割り当て</a></li><li class="chapter-item expanded "><a href="type-sizes.html"><strong aria-hidden="true">10.</strong> 型のサイズ</a></li><li class="chapter-item expanded "><a href="standard-library-types.html"><strong aria-hidden="true">11.</strong> 標準ライブラリの型</a></li><li class="chapter-item expanded "><a href="iterators.html"><strong aria-hidden="true">12.</strong> イテレータ</a></li><li class="chapter-item expanded "><a href="io.html"><strong aria-hidden="true">13.</strong> I/O</a></li><li class="chapter-item expanded "><a href="logging-and-debugging.html"><strong aria-hidden="true">14.</strong> ログとデバッグ</a></li><li class="chapter-item expanded "><a href="wrapper-types.html"><strong aria-hidden="true">15.</strong> ラッパー型</a></li><li class="chapter-item expanded "><a href="machine-code.html"><strong aria-hidden="true">16.</strong> マシンコード</a></li><li class="chapter-item expanded "><a href="parallelism.html"><strong aria-hidden="true">17.</strong> 並列処理</a></li><li class="chapter-item expanded "><a href="general-tips.html"><strong aria-hidden="true">18.</strong> 一般的なアドバイス</a></li><li class="chapter-item expanded "><a href="compile-times.html"><strong aria-hidden="true">19.</strong> コンパイル時間</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">The Rust Performance Book</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                        <a href="https://github.com/JohnTitor/perf-book-ja" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <!-- https://github.com/nnethercote/perf-book/commit/734f315e48e5f2d72777fc22f56b5404e2ece12e -->
+<h1 id="ヒープ割り当て"><a class="header" href="#ヒープ割り当て">ヒープ割り当て</a></h1>
+<p>(<a href="https://nnethercote.github.io/perf-book/heap-allocations.html">原文</a>)</p>
+<p>ヒープ割り当て (heap allocation) には中程度にコストがかかります。その詳細は使用するアロケータに依存しますが、それぞれの割り当て（そして割り当て解除）はグローバルロックの取得、いくつかの些細でないデータ構造の操作、そして（場合によっては）システムコールを実行します。小さな割り当ては大きなものよりコストがかからないとは限りません。割り当てを避けることは大きくパフォーマンスを改善できることがあるため、どの Rust のデータ構造と命令が割り当てを引き起こすのか理解する価値があります。</p>
+<p><a href="https://docs.google.com/presentation/d/1q-c7UAyrUlM-eZyTo1pd8SZ0qwA_wYxmPZVOQkoDmH4/">Rust Container チートシート</a>は一般的な Rust の型を視覚化しており、続くセクションの理解を助けてくれます。</p>
+<h2 id="プロファイリング"><a class="header" href="#プロファイリング">プロファイリング</a></h2>
+<p>一般用途向けのプロファイラーが <code>malloc</code> や <code>free</code>、その他の関連する関数がホットであると示した場合には、割り当ての割合を減らし、代替となるアロケータを利用することを試してみる価値が大いにあります。</p>
+<p><a href="https://www.valgrind.org/docs/manual/dh-manual.html">DHAT</a> は割り当ての割合を減らすときに使える素晴らしいプロファイラーです。Linux やその他の Unix システム上で動作します。ホットな割り当ての場所とその割合をかなり正確に特定してくれます。実際の結果は測定されたものと異なるでしょうが、rustc では、実行される 100 万命令あたり 10 の割り当てを減らすことで観測できるレベルのパフォーマンス向上 (~1%) が見られました。</p>
+<p>これは例となる DHAT の出力です：</p>
+<pre><code class="language-text">AP 1.1/25 (2 children) {
+  Total:     54,533,440 bytes (4.02%, 2,714.28/Minstr) in 458,839 blocks (7.72%, 22.84/Minstr), avg size 118.85 bytes, avg lifetime 1,127,259,403.64 instrs (5.61% of program duration)
+  At t-gmax: 0 bytes (0%) in 0 blocks (0%), avg size 0 bytes
+  At t-end:  0 bytes (0%) in 0 blocks (0%), avg size 0 bytes
+  Reads:     15,993,012 bytes (0.29%, 796.02/Minstr), 0.29/byte
+  Writes:    20,974,752 bytes (1.03%, 1,043.97/Minstr), 0.38/byte
+  Allocated at {
+    #1: 0x95CACC9: alloc (alloc.rs:72)
+    #2: 0x95CACC9: alloc (alloc.rs:148)
+    #3: 0x95CACC9: reserve_internal&lt;syntax::tokenstream::TokenStream,alloc::alloc::Global&gt; (raw_vec.rs:669)
+    #4: 0x95CACC9: reserve&lt;syntax::tokenstream::TokenStream,alloc::alloc::Global&gt; (raw_vec.rs:492)
+    #5: 0x95CACC9: reserve&lt;syntax::tokenstream::TokenStream&gt; (vec.rs:460)
+    #6: 0x95CACC9: push&lt;syntax::tokenstream::TokenStream&gt; (vec.rs:989)
+    #7: 0x95CACC9: parse_token_trees_until_close_delim (tokentrees.rs:27)
+    #8: 0x95CACC9: syntax::parse::lexer::tokentrees::&lt;impl syntax::parse::lexer::StringReader&lt;'a&gt;&gt;::parse_token_tree (tokentrees.rs:81)
+  }
+}
+</code></pre>
+<!-- textlint-disable ja-technical-writing/max-ten -->
+<p>この例のすべてを説明することはこの本の範囲外ですが、DHAT が割り当てがどこで・どのくらいの頻度で起こっているか、どのくらいの大きさか、どのくらいの間有効なのか、そしてどのくらいの頻度でアクセスされるのかなど、割り当てについてたくさんの情報を提供してくれていることが分かるでしょう。</p>
+<!-- textlint-enable ja-technical-writing/max-ten -->
+<h2 id="box"><a class="header" href="#box"><code>Box</code></a></h2>
+<p><a href="https://doc.rust-lang.org/std/boxed/struct.Box.html"><code>Box</code></a> は最もシンプルなヒープに置かれる (heap-allocated) 型です。<code>Box&lt;T&gt;</code> の値はヒープに置かれた <code>T</code> の値です。</p>
+<p><code>struct</code> や <code>enum</code> の 1 つあるいはそれ以上のフィールドを box 化することで、型を小さくできる場合があります（この詳細については <a href="type-sizes.html">型のサイズ</a> というチャプターを参照してください）。</p>
+<p>それ以外では <code>Box</code> は簡潔で最適化の余地はあまりありません。</p>
+<h2 id="rcarc"><a class="header" href="#rcarc"><code>Rc</code>/<code>Arc</code></a></h2>
+<p><a href="https://doc.rust-lang.org/std/rc/struct.Rc.html"><code>Rc</code></a>/<a href="https://doc.rust-lang.org/std/sync/struct.Arc.html"><code>Arc</code></a> は <code>Box</code> と似ていますが、ヒープ上の値は 2 つの参照カウントを持っています。これらの型は値の共有を可能にし、メモリ使用量を削減するための効果的な手段になり得ます。</p>
+<!-- textlint-disable ja-technical-writing/no-doubled-joshi -->
+<p>しかし、めったに共有されないような値に使われると、ヒープに置かれないような値までヒープに置くことで割り当ての割合を大きくしてしまう恐れがあります。</p>
+<!-- textlint-enable ja-technical-writing/no-doubled-joshi -->
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/37373/commits/c440a7ae654fb641e68a9ee53b03bf3f7133c2fe"><strong>例</strong></a></li>
+</ul>
+<p><code>Box</code> と異なり、<code>Rc</code>/<code>Arc</code> 上で <code>clone</code> を呼び出しても割り当ては行われません。代わりに、参照カウントをインクリメントします。</p>
+<h2 id="vec"><a class="header" href="#vec"><code>Vec</code></a></h2>
+<p><a href="https://doc.rust-lang.org/std/vec/struct.Vec.html"><code>Vec</code></a> はヒープに置かれる型で、割り当ての数を最適化したり、無駄なスペースの量を最小化したりする大きな余地があります。このためにはその要素がどのように保持されるかについて理解しなければなりません。</p>
+<p><code>Vec</code> には 3 つの要素があります。長さ、容量、そしてポインタです。ポインタは容量と要素の大きさが 0 でない場合にはヒープに置かれたメモリを指します。そうでない場合は、割り当てられたメモリを指すことはありません。</p>
+<!-- textlint-disable ja-technical-writing/no-doubled-joshi -->
+<p><code>Vec</code> 自体がヒープに置かれないとしても、その要素（存在していてサイズが0でない場合）はいつもヒープに置かれます。もしサイズが0でない要素が存在する場合、それらの要素を保持するメモリは、追加の要素のためのスペースを開けておくことにより、必要より大きくなっている場合があります。現在ある要素の数が長さとなり、再度割り当てることなく要素を置ける数というのが容量になります。</p>
+<!-- textlint-enable ja-technical-writing/no-doubled-joshi -->
+<p>ベクタが現在の容量を増やす必要が出てきた場合、その要素はより大きなヒープ割り当てにコピーされ、古いヒープ割り当ては解放されます。</p>
+<h3 id="vec-の増大"><a class="header" href="#vec-の増大"><code>Vec</code> の増大</a></h3>
+<p>一般的な方法で (<a href="https://doc.rust-lang.org/std/macro.vec.html"><code>vec![]</code></a>、<a href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.new"><code>Vec::new</code></a> あるいは <a href="https://doc.rust-lang.org/std/default/trait.Default.html#tymethod.default"><code>Vec::default</code></a>) 作られた新しい空の <code>Vec</code> の長さと容量は 0 であり、ヒープ割り当てを必要としません。もし個々の要素をその <code>Vec</code> の最後に繰り返し追加した場合、定期的に再割り当てが発生します。増大させる方法 (strategy) は指定されていませんが、執筆時では quasi-doubling strategy が採用されています。この方法では 0、4、8、16、32、64…、のように容量が遷移していきます（<a href="https://github.com/rust-lang/rust/pull/72227">多くの割り当てを避ける</a>ため、これは 1 と 2 を飛ばして 0 から 4 へと容量を増やします）。ベクタが増大するにつれ、再割り当ての頻度は指数関数的に減っていきますが、無駄になる可能性のある余分な容量は指数関数的に増えていきます。</p>
+<p>この増大の仕組みは要素を増やしていける一般用途向けのデータ構造では理にかなっているものですが、事前にベクタの長さが分かっている場合には、より効率的なことを行えます。ホットなベクタの割り当て場所（例：ホットな <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.push"><code>Vec::push</code></a> の呼び出しなど）がある場合は、そこでベクタの長さを出力するために <a href="https://doc.rust-lang.org/std/macro.eprintln.html"><code>eprintln!</code></a> を使い、その後長さの分布を見定めるために（<a href="https://github.com/nnethercote/counts/"><code>counts</code></a> などを使って）後処理をする価値があります。例えば、たくさんの短いベクタがあったり、それよりすくない数のとても長いベクタがあったりするでしょう。割り当て場所を最適化する一番良い方法はその状況に大きく依存します。</p>
+<h3 id="短い-vec"><a class="header" href="#短い-vec">短い <code>Vec</code></a></h3>
+<p>もし短いベクタがたくさんある場合には、<a href="https://crates.io/crates/smallvec"><code>smallvec</code></a> クレートの <code>SmallVec</code> 型を使うことができます。<code>SmallVec&lt;[T; N]&gt;</code> は <code>Vec</code> の代替であり、<code>N</code> 個の要素を <code>SmallVec</code> 自身に保持できます。要素数がそれを越えた場合はヒープ割り当てに切り替わります（<code>SmallVec</code> を使う場合、<code>vec![]</code> を <code>smallvec![]</code> に置き換える必要があることに注意してください）。</p>
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/50565/commits/78262e700dc6a7b57e376742f344e80115d2d3f2"><strong>例 1</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/55383/commits/526dc1421b48e3ee8357d58d997e7a0f4bb26915"><strong>例 2</strong></a></li>
+</ul>
+<p><code>SmallVec</code> は適切に使えば割り当ての割合を確実に下げますが、その使用自体がパフォーマンスの向上を保証するものではありません。それは要素がヒープに置かれているかどうかを必ず確認するため、一般的な処理では <code>Vec</code> よりもわずかに遅いです。また、<code>N</code> や <code>T</code> が大きい場合、<code>SmallVec&lt;[T; N]&gt;</code> 自身は <code>Vec&lt;T&gt;</code> よりも大きくなることがあり、<code>SmallVec</code> のコピーは <code>Vec</code> より遅くなります。いつも通り、最適化に効果があるのか確認するためのベンチマークが必須です。</p>
+<p>短いベクタがたくさんあり <strong>加えて</strong> その最大長を正確に把握している場合、<a href="https://crates.io/crates/arrayvec"><code>arrayvec</code></a> の <code>ArrayVec</code> 型は <code>SmallVec</code> よりも優れた選択肢です。ヒープ割り当てへのフォールバックを必要とせず、<code>SmallVec</code> よりもわずかに高速に動作します。</p>
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/74310/commits/c492ca40a288d8a85353ba112c4d38fe87ef453e"><strong>例</strong></a></li>
+</ul>
+<h3 id="長い-vec"><a class="header" href="#長い-vec">長い <code>Vec</code></a></h3>
+<p>ベクタの最小の、あるいは実際の大きさをしっている場合、<a href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.with_capacity"><code>Vec::with_capacity</code></a>、<a href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.reserve"><code>Vec::reserve</code></a>、あるいは <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.reserve_exact"><code>Vec::reserve_exact</code></a> を使って特定の容量を確保できます。例えば、あるベクタが少なくとも20個の要素を持つことが分かっている場合、これらの関数は直ちに1回の割り当てで少なくとも 20 の容量を持つベクタを生成します。対して一度に1つずつアイテムを挿入した場合には4回割り当てをします（容量について、4、8、16、そして 32）。</p>
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/77990/commits/a7f2bb634308a5f05f2af716482b67ba43701681"><strong>例</strong></a></li>
+</ul>
+<p>ベクタの最大長を知っている場合、上記の関数は不必要に余分なスペースを割り当てないでいいようにしてくれます。同様に、<a href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.shrink_to_fit"><code>Vec::shrink_to_fit</code></a> は余分なスペースを最小化するために使えますが、再割り当てが必要となる場合があることに注意してください。</p>
+<h2 id="string"><a class="header" href="#string"><code>String</code></a></h2>
+<p><a href="https://doc.rust-lang.org/std/string/struct.String.html"><code>String</code></a> はヒープに置かれるバイト列を持ちます。<code>String</code> の表現と操作は <code>Vec&lt;u8&gt;</code> によく似ています。増大と容量に関する多くの <code>Vec</code> メソッドと同等なものが <code>String</code> にもあります。例えば <a href="https://doc.rust-lang.org/std/string/struct.String.html#method.with_capacity"><code>String::with_capacity</code></a> などです。</p>
+<p><a href="https://crates.io/crates/smallstr"><code>smallstr</code></a> クレートの <code>SmallString</code> 型は <code>SmallVec</code> 型に似ています。</p>
+<p><a href="https://crates.io/crates/smartstring"><code>smartstring</code></a> クレートの <code>String</code> 型は std の <code>String</code> の代替であり、3 語分以下の文字列についてヒープ割り当てを回避します。64-bit プラットフォーム上では、これは 23 以下の ASCII 文字を合わせたすべての文字列を含む、24 bytes 以下の任意の文字列となります。</p>
+<ul>
+<li><a href="https://github.com/djc/topfew-rs/commit/803fd566e9b889b7ba452a2a294a3e4df76e6c4c"><strong>例</strong></a></li>
+</ul>
+<p><code>format!</code> マクロは <code>String</code> を生成する、つまり、割り当てを必要とすることに注意してください。文字列リテラルを使うことで <code>format!</code> の呼び出しを避けられる場合、この割り当てを回避できます。</p>
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/55905/commits/c6862992d947331cd6556f765f6efbde0a709cf9"><strong>例</strong></a></li>
+</ul>
+<h2 id="ハッシュテーブル"><a class="header" href="#ハッシュテーブル">ハッシュテーブル</a></h2>
+<p><a href="https://doc.rust-lang.org/std/collections/struct.HashSet.html"><code>HashSet</code></a> や <a href="https://doc.rust-lang.org/std/collections/struct.HashMap.html"><code>HashMap</code></a> はハッシュテーブルです。割り当てという文脈では、それらの表現や操作は <code>Vec</code> のそれに似ています。それらはキーや値を保持しつつ単一の継続したヒープ割り当てを行い、テーブルの拡大に必要となる限り再割り当てされます。増大と容量に関する多くの <code>Vec</code> のメソッドと同様のものが <code>HashSet</code>/<code>HashMap</code> にもあります。例えば、<a href="https://doc.rust-lang.org/std/collections/struct.HashSet.html#method.with_capacity"><code>HashSet::with_capacity</code></a> などです。</p>
+<h2 id="cow"><a class="header" href="#cow"><code>Cow</code></a></h2>
+<p>時々、<code>&amp;str</code> のような、何らかの借用されたデータを使いたい場合があります。これは殆どの場合読み取り専用ですが、たまに変更する必要が出てきます。毎回そのデータをクローンするのは無駄が多いです。その代わりに<a href="https://doc.rust-lang.org/std/borrow/enum.Cow.html"><code>Cow</code></a> 型を通して、借用/所有された両方のデータを表現できる、&quot;clone-on-write&quot; なセマンティクスを使うことができます。</p>
+<p>通常、借用された値 <code>x</code> から始めるときは、<code>Cow::Borrowed(x)</code> を使って <code>Cow</code> の中に <code>x</code> を包みます。<code>Cow</code> は <a href="https://doc.rust-lang.org/std/ops/trait.Deref.html"><code>Deref</code></a> を実装しているので、<code>Cow</code> が持っているデータに対して不変 (non-mutating) なメソッドを直接呼び出せます。もし可変である必要がある場合には、<a href="https://doc.rust-lang.org/std/borrow/enum.Cow.html#method.to_mut"><code>Cow::to_mut</code></a> によって、必要に応じてクローンしつつ、所有されている値への可変参照を取得できます。</p>
+<p><code>Cow</code> をうまく動かすのは難しいですが、試行錯誤する価値は十分あります。</p>
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/37064/commits/b043e11de2eb2c60f7bfec5e15960f537b229e20"><strong>例 1</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/50855/commits/ad471452ba6fbbf91ad566dc4bdf1033a7281811"><strong>例 2</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/56336/commits/787959c20d062d396b97a5566e0a766d963af022"><strong>例 3</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/68848/commits/67da45f5084f98eeb20cc6022d68788510dc832a"><strong>例 4</strong></a></li>
+</ul>
+<h2 id="clone"><a class="header" href="#clone"><code>clone</code></a></h2>
+<p>ヒープに置かれたメモリを含む値に対して <a href="https://doc.rust-lang.org/std/clone/trait.Clone.html#tymethod.clone"><code>clone</code></a> を呼び出すと、通常は追加の割り当てが発生します。例えば、空でない <code>Vec</code> に対して <code>clone</code> を呼び出すと、その要素の新しい割り当てが必要になります（新しい <code>Vec</code> の容量は元のものと異なる可能性があることに注意してください）。例外は <code>Rc</code>/<code>Arc</code> で、<code>clone</code> 呼び出しは参照カウントをインクリメントするだけです。</p>
+<p><a href="https://doc.rust-lang.org/std/clone/trait.Clone.html#method.clone_from"><code>clone_from</code></a> は <code>clone</code> の代替です。<code>a.clone_from(&amp;b)</code> は <code>a = b.clone()</code> と同等ですが、不必要な割り当てを避ける場合があります。例えば既存の <code>Vec</code> をもとに <code>Vec</code> を1つクローンしたい場合、可能であれば既存の <code>Vec</code> のヒープ割り当てが再利用されます。以下の例で示します：</p>
+<pre><pre class="playground"><code class="language-rust edition2018">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut v1: Vec&lt;u32&gt; = Vec::with_capacity(99);
+let v2: Vec&lt;u32&gt; = vec![1, 2, 3];
+v1.clone_from(&amp;v2); // v1's allocation is reused
+assert_eq!(v1.capacity(), 99);
+<span class="boring">}
+</span></code></pre></pre>
+<p><code>clone</code> は通常割り当てを発生させますが、多くの状況では利用することは理にかなっておりコードをシンプルにすることも多いです。プロファイリングデータを使ってどの <code>clone</code> の呼び出しがホットで避けるために工夫する価値があるか確認してください。</p>
+<p>時々、Rust コードには、(a) プログラマーのミス、(b) コードの変更により以前必要だった <code>clone</code> 呼び出しが不必要になった、などの理由で不必要な <code>clone</code> 呼び出しが含まれることもあります。もし必要そうでないホットな <code>clone</code> の呼び出しを見つけた場合には、単純に削除できることもあります。</p>
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/37318/commits/e382267cfb9133ef12d59b66a2935ee45b546a61"><strong>例 1</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/37705/commits/11c1126688bab32f76dbe1a973906c7586da143f"><strong>例 2</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/64302/commits/36b37e22de92b584b9cf4464ed1d4ad317b798be"><strong>例 3</strong></a></li>
+</ul>
+<h2 id="to_owned"><a class="header" href="#to_owned"><code>to_owned</code></a></h2>
+<p><a href="https://doc.rust-lang.org/std/borrow/trait.ToOwned.html#tymethod.to_owned"><code>ToOwned::to_owned</code></a> は多くの一般的な型に対して実装されています。これは借用されたデータから所有されたデータを作成します。一般的にはクローンが必要で、それによりしばしばヒープ割り当てが発生します。例えば、これは <code>&amp;str</code> から <code>String</code> を作成するときに使われます。</p>
+<p>時々、所有されたコピーでなく構造体にある借用されたデータへの参照を保持することで、<code>to_owned</code> 呼び出しを回避できることがあります。これは構造体にライフタイム注釈を必要とし、コードを複雑にします。そのため、プロファイリングやベンチマークでそうする価値があると分かった場合にのみ適用されるべきです。</p>
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/50855/commits/6872377357dbbf373cfd2aae352cb74cfcc66f34"><strong>例</strong></a></li>
+</ul>
+<h2 id="コレクションを再利用する"><a class="header" href="#コレクションを再利用する">コレクションを再利用する</a></h2>
+<p><code>Vec</code> のようなコレクションを段階的に作成しなければならない場合があります。この場合、複数の <code>Vec</code> をつくってそれらを組み合わせるよりも、1つの <code>Vec</code> を変更していく方が、一般により良いやり方です。</p>
+<p>例えば、複数回呼び出される可能性のある <code>Vec</code> を生成する <code>do_stuff</code> という関数があります：</p>
+<pre><pre class="playground"><code class="language-rust edition2018">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn do_stuff(x: u32, y: u32) -&gt; Vec&lt;u32&gt; {
+    vec![x, y]
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>この時、渡された <code>Vec</code> を変更した方が好ましいでしょう：</p>
+<pre><pre class="playground"><code class="language-rust edition2018">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn do_stuff(x: u32, y: u32, vec: &amp;mut Vec&lt;u32&gt;) {
+    vec.push(x);
+    vec.push(y);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>再利用できる &quot;workhorse&quot; なコレクションを保持しておく価値がある場合もあります。例えば、ループの各イテレーションのために <code>Vec</code> が必要な場合、ループの外で <code>Vec</code> を宣言します。そしてループのボディ内でそれを使用し、それからループボディの最後に <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.clear"><code>clear</code></a>（容量を変えずに <code>Vec</code> を空にする）を呼び出すことができるでしょう。これは、各イテレーションでの <code>Vec</code> の使用がその他のイテレーションに関係がないということが分かりづらくなることと引き換えに、割り当てを避けることができます。</p>
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/77990/commits/45faeb43aecdc98c9e3f2b24edf2ecc71f39d323"><strong>例 1</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/51870/commits/b0c78120e3ecae5f4043781f7a3f79e2277293e7"><strong>例 2</strong></a></li>
+</ul>
+<p>同様に、構造体の中に &quot;workhorse&quot; なコレクションを保持しておく価値がある場合もあります。これは繰り返し呼び出される 1 つ以上のメソッドの中で再利用されます。</p>
+<h2 id="代替となるアロケータを使用する"><a class="header" href="#代替となるアロケータを使用する">代替となるアロケータを使用する</a></h2>
+<p>割り当ての多い Rust プログラムのパフォーマンスを向上させる別の手段として、デフォルトの（システム）アロケータを代替のものに置き換えるというものがあります。正確な影響は個々のプログラムと選ばれるアロケータに依存します。また、各プラットフォームのシステムアロケータはそれぞれ長所短所を持っているので、プラットフォームによってもその影響は異なります。異なるアロケータの使用はバイナリサイズにも影響します。</p>
+<p>人気のある代替アロケータの 1 つに <a href="https://crates.io/crates/jemallocator"><code>jemallocator</code></a> クレートを通して使える <a href="https://github.com/jemalloc/jemalloc">jemalloc</a> があります。使用するには依存関係を <code>Cargo.toml</code> に追記します：</p>
+<pre><code class="language-toml">[dependencies]
+jemallocator = &quot;0.3.2&quot;
+</code></pre>
+<p>それから次の行を Rust コードのどこかに追記します：</p>
+<pre><code class="language-rust ignore">#[global_allocator]
+static GLOBAL: jemallocator::Jemalloc = jemallocator::Jemalloc;
+</code></pre>
+<p>もう 1 つの代替となるアロケータは <a href="https://docs.rs/mimalloc/0.1.22/mimalloc/"><code>mimalloc</code></a> を通して使える <a href="https://github.com/microsoft/mimalloc">mimalloc</a> です。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="hashing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="type-sizes.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="hashing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="type-sizes.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

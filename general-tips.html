@@ -1,0 +1,298 @@
+<!DOCTYPE HTML>
+<html lang="ja" class="sidebar-visible no-js rust">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>一般的なアドバイス - The Rust Performance Book</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "rust";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('rust')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">タイトルページ</a></li><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> イントロダクション</a></li><li class="chapter-item expanded "><a href="translation-notice.html"><strong aria-hidden="true">2.</strong> 翻訳について</a></li><li class="chapter-item expanded "><a href="benchmarking.html"><strong aria-hidden="true">3.</strong> ベンチマーク</a></li><li class="chapter-item expanded "><a href="build-configuration.html"><strong aria-hidden="true">4.</strong> ビルド設定</a></li><li class="chapter-item expanded "><a href="linting.html"><strong aria-hidden="true">5.</strong> Linting</a></li><li class="chapter-item expanded "><a href="profiling.html"><strong aria-hidden="true">6.</strong> プロファイリング</a></li><li class="chapter-item expanded "><a href="inlining.html"><strong aria-hidden="true">7.</strong> インライン化</a></li><li class="chapter-item expanded "><a href="hashing.html"><strong aria-hidden="true">8.</strong> ハッシュ化</a></li><li class="chapter-item expanded "><a href="heap-allocations.html"><strong aria-hidden="true">9.</strong> ヒープ割り当て</a></li><li class="chapter-item expanded "><a href="type-sizes.html"><strong aria-hidden="true">10.</strong> 型のサイズ</a></li><li class="chapter-item expanded "><a href="standard-library-types.html"><strong aria-hidden="true">11.</strong> 標準ライブラリの型</a></li><li class="chapter-item expanded "><a href="iterators.html"><strong aria-hidden="true">12.</strong> イテレータ</a></li><li class="chapter-item expanded "><a href="io.html"><strong aria-hidden="true">13.</strong> I/O</a></li><li class="chapter-item expanded "><a href="logging-and-debugging.html"><strong aria-hidden="true">14.</strong> ログとデバッグ</a></li><li class="chapter-item expanded "><a href="wrapper-types.html"><strong aria-hidden="true">15.</strong> ラッパー型</a></li><li class="chapter-item expanded "><a href="machine-code.html"><strong aria-hidden="true">16.</strong> マシンコード</a></li><li class="chapter-item expanded "><a href="parallelism.html"><strong aria-hidden="true">17.</strong> 並列処理</a></li><li class="chapter-item expanded "><a href="general-tips.html" class="active"><strong aria-hidden="true">18.</strong> 一般的なアドバイス</a></li><li class="chapter-item expanded "><a href="compile-times.html"><strong aria-hidden="true">19.</strong> コンパイル時間</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">The Rust Performance Book</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                        <a href="https://github.com/JohnTitor/perf-book-ja" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <!-- commit: https://github.com/nnethercote/perf-book/commit/bfb0a69ea4a0d3057e1fb3dac03dee249f6f208d -->
+<h1 id="一般的なアドバイス"><a class="header" href="#一般的なアドバイス">一般的なアドバイス</a></h1>
+<p>(<a href="https://nnethercote.github.io/perf-book/general-tips.html">原文</a>)</p>
+<p>この本のこれより前のセクションでは Rust 固有のテクニックについて解説してきました。このセクションでは一般的なパフォーマンスの基礎事項の簡潔な概要をいくつか紹介していきます。</p>
+<h2 id="rust-自体のパフォーマンス"><a class="header" href="#rust-自体のパフォーマンス">Rust 自体のパフォーマンス</a></h2>
+<p><a href="build-configuration.html">リリースビルドを使わない</a>といったような明白な落とし穴を避ければ、Rust は一般的に良いパフォーマンスを発揮します。ときに、Python や Ruby のような動的型付け言語に慣れている場合にはこれが分かりやすいでしょう。</p>
+<h2 id="最適化する部分を見極める"><a class="header" href="#最適化する部分を見極める">最適化する部分を見極める</a></h2>
+<p>最適化されたコードはそうでないコードよりも複雑で書くのに労力を要することも多いです。このような理由からホットなコードのみを最適化していく方が良いでしょう。</p>
+<p>最も大きなパフォーマンス改善というのは、低レベルでの最適化よりもアルゴリズムやデータ構造の変更などによってもたらされることが多いものです。</p>
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/53383/commits/5745597e6195fe0591737f242d02350001b6c590"><strong>例 1</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/54318/commits/154be2c98cf348de080ce951df3f73649e8bb1a6"><strong>例 2</strong></a></li>
+</ul>
+<h2 id="現代的なハードウェア上での最適化"><a class="header" href="#現代的なハードウェア上での最適化">現代的なハードウェア上での最適化</a></h2>
+<p>現代的なハードウェアでうまく動作するコードを書くというのは常に簡単というわけではありませんが、やってみる価値はあります。例えば、キャッシュミスや分岐予測の失敗を出来る部分で最小化してみてください。</p>
+<h2 id="小さな最適化を積み重ねる"><a class="header" href="#小さな最適化を積み重ねる">小さな最適化を積み重ねる</a></h2>
+<p>ほとんどの最適化は小さなスピード改善という結果になりがちです。単一の改善では目を引くものでなくとも、それを十分な数積み重ねていけば大きなものになります。</p>
+<h2 id="いろんなプロファイラーを使ってみる"><a class="header" href="#いろんなプロファイラーを使ってみる">いろんなプロファイラーを使ってみる</a></h2>
+<p>プロファイラーにはそれぞれ長所があります。複数使ってみるのが良いでしょう。</p>
+<h2 id="ホットな関数の最適化"><a class="header" href="#ホットな関数の最適化">ホットな関数の最適化</a></h2>
+<p>もしプロファイリングで関数がホットであると分かった場合には、スピードを改善できる2つの一般的なやり方があります。</p>
+<ul>
+<li>(a): 関数を高速化する</li>
+<li>(b): 可能な限り呼び出しを避ける</li>
+</ul>
+<h2 id="愚直で遅い実装を潰していく"><a class="header" href="#愚直で遅い実装を潰していく">愚直で遅い実装を潰していく</a></h2>
+<p>賢いスピードアップを図るよりも愚直な実装で遅い部分を潰していく方が多くの場合簡単です。</p>
+<h2 id="必要なときだけ評価する"><a class="header" href="#必要なときだけ評価する">必要なときだけ評価する</a></h2>
+<p>必要でない限り何かを計算するのは避けましょう。遅延評価/オンデマンド評価 (on-demand computations) は改善につながることが多いです。</p>
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/36592/commits/80a44779f7a211e075da9ed0ff2763afa00f43dc"><strong>例 1</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/50339/commits/989815d5670826078d9984a3515eeb68235a4687"><strong>例 2</strong></a></li>
+</ul>
+<h2 id="特殊固有のケースについて処理する"><a class="header" href="#特殊固有のケースについて処理する">特殊・固有のケースについて処理する</a></h2>
+<p>複雑で一般的な実装は、共通する特別なケースに対する、よりシンプルなチェックにより避けられることが多いです。</p>
+<p>Complex general cases can often be avoided by optimistically checking for
+common special cases that are simpler.</p>
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/68790/commits/d62b6f204733d255a3e943388ba99f14b053bf4a"><strong>例 1</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/53733/commits/130e55665f8c9f078dec67a3e92467853f400250"><strong>例 2</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/65260/commits/59e41edcc15ed07de604c61876ea091900f73649"><strong>例 3</strong></a></li>
+</ul>
+<p>特に、小さなサイズが優位を占める場合、0～2個の要素を持つコレクションの処理はパフォーマンス改善につながることが多いです。</p>
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/50932/commits/2ff632484cd8c2e3b123fbf52d9dd39b54a94505"><strong>例 1</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/64627/commits/acf7d4dcdba4046917c61aab141c1dec25669ce9"><strong>例 2</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/64949/commits/14192607d38f5501c75abea7a4a0e46349df5b5f"><strong>例 3</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/64949/commits/d1a7bb36ad0a5932384eac03d3fb834efc0317e5"><strong>例 4</strong></a></li>
+</ul>
+<p>同様に、繰り返しのあるデータを処理する場合、共通の値についてコンパクトな表現を用いてまれな値についてはサブテーブルへとフォールバックするような実装をすることで、単純な形式のデータ圧縮を使用できます。</p>
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/54420/commits/b2f25e3c38ff29eebe6c8ce69b8c69243faa440d"><strong>例 1</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/59693/commits/fd7f605365b27bfdd3cd6763124e81bddd61dd28"><strong>例 2</strong></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/65750/commits/eea6f23a0ed67fd8c6b8e1b02cda3628fee56b2f"><strong>例 3</strong></a></li>
+</ul>
+<h2 id="最もよくあるケースを優先する"><a class="header" href="#最もよくあるケースを優先する">最もよくあるケースを優先する</a></h2>
+<p>コードが複数のケースに対処している場合、それぞれのケースの頻度を計測し、最もよくあるものを一番最初に処理しましょう。</p>
+<p>局所性の高い探索 (lookup) を処理する場合、データ構造の先頭に小さなキャッシュを用意するとパフォーマンス改善につながることがあります。</p>
+<h2 id="コメントを書く"><a class="header" href="#コメントを書く">コメントを書く</a></h2>
+<p>最適化されたコードは明白でない構造をしていることも多く、それを説明する、特にプロファイリングの測定結果を示すようなコメントを書くことが重要になります。例えば、「このベクタは99%の割合で0か1を要素として持つのでそれらのケースを先に処理してください」といったコメントは役に立つでしょう。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="parallelism.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="compile-times.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="parallelism.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="compile-times.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

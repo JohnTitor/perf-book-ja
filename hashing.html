@@ -1,0 +1,258 @@
+<!DOCTYPE HTML>
+<html lang="ja" class="sidebar-visible no-js rust">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>ハッシュ化 - The Rust Performance Book</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "rust";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('rust')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">タイトルページ</a></li><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> イントロダクション</a></li><li class="chapter-item expanded "><a href="translation-notice.html"><strong aria-hidden="true">2.</strong> 翻訳について</a></li><li class="chapter-item expanded "><a href="benchmarking.html"><strong aria-hidden="true">3.</strong> ベンチマーク</a></li><li class="chapter-item expanded "><a href="build-configuration.html"><strong aria-hidden="true">4.</strong> ビルド設定</a></li><li class="chapter-item expanded "><a href="linting.html"><strong aria-hidden="true">5.</strong> Linting</a></li><li class="chapter-item expanded "><a href="profiling.html"><strong aria-hidden="true">6.</strong> プロファイリング</a></li><li class="chapter-item expanded "><a href="inlining.html"><strong aria-hidden="true">7.</strong> インライン化</a></li><li class="chapter-item expanded "><a href="hashing.html" class="active"><strong aria-hidden="true">8.</strong> ハッシュ化</a></li><li class="chapter-item expanded "><a href="heap-allocations.html"><strong aria-hidden="true">9.</strong> ヒープ割り当て</a></li><li class="chapter-item expanded "><a href="type-sizes.html"><strong aria-hidden="true">10.</strong> 型のサイズ</a></li><li class="chapter-item expanded "><a href="standard-library-types.html"><strong aria-hidden="true">11.</strong> 標準ライブラリの型</a></li><li class="chapter-item expanded "><a href="iterators.html"><strong aria-hidden="true">12.</strong> イテレータ</a></li><li class="chapter-item expanded "><a href="io.html"><strong aria-hidden="true">13.</strong> I/O</a></li><li class="chapter-item expanded "><a href="logging-and-debugging.html"><strong aria-hidden="true">14.</strong> ログとデバッグ</a></li><li class="chapter-item expanded "><a href="wrapper-types.html"><strong aria-hidden="true">15.</strong> ラッパー型</a></li><li class="chapter-item expanded "><a href="machine-code.html"><strong aria-hidden="true">16.</strong> マシンコード</a></li><li class="chapter-item expanded "><a href="parallelism.html"><strong aria-hidden="true">17.</strong> 並列処理</a></li><li class="chapter-item expanded "><a href="general-tips.html"><strong aria-hidden="true">18.</strong> 一般的なアドバイス</a></li><li class="chapter-item expanded "><a href="compile-times.html"><strong aria-hidden="true">19.</strong> コンパイル時間</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">The Rust Performance Book</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                        <a href="https://github.com/JohnTitor/perf-book-ja" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <!-- commit: https://github.com/nnethercote/perf-book/commit/d0ba7e92f194dfcdc374eb32801317b918a90d22 -->
+<h1 id="ハッシュ化"><a class="header" href="#ハッシュ化">ハッシュ化</a></h1>
+<p>(<a href="https://nnethercote.github.io/perf-book/hashing.html">原文</a>)</p>
+<p><code>HashSet</code> と <code>HashMap</code> は広く使われる2つの型です。デフォルトのハッシュアルゴリズムは指定されていませんが、執筆時点では <a href="https://en.wikipedia.org/wiki/SipHash">SipHash 1-3</a> と呼ばれるアルゴリズムがデフォルトとなっています。このアルゴリズムは高い品質を持っており衝突に対する高い保護性能を持ちますが、その一方で特に整数のような短いキーについては遅いという特徴があります。</p>
+<p>もしプロファイリングによりハッシュ化がホットであると判明し、<a href="https://en.wikipedia.org/wiki/Collision_attack">HashDoS attacks</a> がアプリケーションにおいて懸念にならない場合には、より高速なハッシュアルゴリズムを持つハッシュテーブルの使用により、大きな速度の改善ができます。</p>
+<!-- textlint-disable ja-technical-writing/no-doubled-conjunctive-particle-ga -->
+<ul>
+<li><a href="https://crates.io/crates/rustc-hash"><code>rustc-hash</code></a> は <code>HashSet</code> や <code>HashMap</code> の代替となる <code>FxHashSet</code> や <code>FxHashMap</code> を提供しています。ハッシュアルゴリズムは低品質ですが、特に整数キーの場合にはとても高速で、rustc 内の他のどのハッシュアルゴリズムよりも性能が優れています（<a href="https://crates.io/crates/fxhash"><code>fxhash</code></a> は同じアルゴリズムと型の実装を持ちますが、<code>rustc-hash</code> に比べると古くあまりメンテナンスされていません）</li>
+<li><a href="https://crates.io/crates/fnv"><code>fnv</code></a> は <code>FnvHashSet</code> 及び <code>FnvHashMap</code> 型を提供しています。ハッシュアルゴリズムは <code>fxhash</code> よりも高品質ですが、その分速度はやや劣ります</li>
+<li><a href="https://crates.io/crates/ahash"><code>ahash</code></a> は <code>AHashSet</code> 及び <code>AHashMap</code> を提供しています。<code>ahash</code> のハッシュアルゴリズムはいくつかのプロセッサで利用可能な AES 命令をサポートしています</li>
+</ul>
+<!-- textlint-enable ja-technical-writing/no-doubled-conjunctive-particle-ga -->
+<p>ハッシュ化のパフォーマンスがプログラムにおいて重要であれば、これらの代替案をいくつか試す価値があるでしょう。例えば、rustc では次の結果が得られました：</p>
+<ul>
+<li><code>fnv</code> から <code>fxhash</code> への移行は<a href="https://github.com/rust-lang/rust/pull/37229/commits/00e48affde2d349e3b3bfbd3d0f6afb5d76282a7">最大6%の高速化</a>をもたらしました</li>
+<li><code>fxhash</code> から <code>ahash</code> への移行の試みは <a href="https://github.com/rust-lang/rust/issues/69153#issuecomment-589504301">1-4%の速度低下</a>という結果でした</li>
+<li><code>fxhash</code> からデフォルトのハッシュアルゴリズムに戻す試みは<a href="https://github.com/rust-lang/rust/issues/69153#issuecomment-589338446">4-84%の速度低下</a>という結果でした！</li>
+</ul>
+<p><code>FxHashSet</code> や <code>FxHashMap</code> のような代替案を一般に採用することを決めた場合、ある場所で <code>HashSet</code> や <code>HashMap</code> を誤って使ってしまうということが容易に起こり得ます。プロファイルにある <code>SipHasher13</code> というコードの存在がそれを物語っています。</p>
+<p>ハッシュ関数の設計は複雑なトピックであり、この本の範囲外です。<a href="https://github.com/tkaitchuck/aHash/blob/master/compare/readme.md"><code>ahash</code> のドキュメント</a>には参考になる情報が載っています。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="inlining.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="heap-allocations.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="inlining.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="heap-allocations.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
