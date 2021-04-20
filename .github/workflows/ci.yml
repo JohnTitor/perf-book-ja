@@ -13,6 +13,12 @@ jobs:
       DEPLOY_DIR: book
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-node
+      with:
+        node-version: '14.x'
+    - run: |
+        npm ci
+        npm run lint
     - name: Build the book
       run: |
         curl -sL https://github.com/rust-lang/mdBook/releases/download/v0.4.7/mdbook-v0.4.7-x86_64-unknown-linux-gnu.tar.gz | tar zx
