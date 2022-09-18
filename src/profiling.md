@@ -1,3 +1,5 @@
+<!-- commit: https://github.com/nnethercote/perf-book/commit/1cf7c72e8694179883e218c983b391f6b56e6c62 -->
+
 # プロファイリング
 
 ([原文](https://nnethercote.github.io/perf-book/profiling.html))
@@ -46,6 +48,15 @@ debug = 1
 `debug` 設定についての詳細な内容は [Cargo のドキュメント]を参照してください。
 
 [Cargo のドキュメント]: https://doc.rust-lang.org/cargo/reference/profiles.html#debug
+
+残念ながら、上記の手順を踏んでも標準ライブラリの詳細なプロファイリングデータを得ることはできません。これはリリースされている標準ライブラリはデバッグ情報を含んでいないためです。この問題を解決するには、コンパイラと標準ライブラリを自分でビルドする必要があります。以下を `config.toml` に追記して、[こちら](https://github.com/rust-lang/rust)に記載の手順に従ってください：
+
+```toml
+[rust]
+debuginfo-level = 1
+```
+
+これは面倒ですが、場合によってはやってみる価値があるでしょう。
 
 ## シンボルデマングリング
 

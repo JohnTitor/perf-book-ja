@@ -1,4 +1,4 @@
-<!-- https://github.com/nnethercote/perf-book/commit/734f315e48e5f2d72777fc22f56b5404e2ece12e -->
+<!-- https://github.com/nnethercote/perf-book/commit/e319ec20ef928bc09edd5d3404b5ce22f6337047 -->
 
 # ヒープ割り当て
 
@@ -148,9 +148,12 @@ AP 1.1/25 (2 children) {
 
 [`smartstring`]: https://crates.io/crates/smartstring
 
-`format!` マクロは `String` を生成する、つまり、割り当てを必要とすることに注意してください。文字列リテラルを使うことで `format!` の呼び出しを避けられる場合、この割り当てを回避できます。
+`format!` マクロは `String` を生成する、つまり、割り当てを必要とすることに注意してください。文字列リテラルを使うことで `format!` の呼び出しを避けられる場合、この割り当てを回避できます。[`std::format_args`] や [`lazy_format`] はこの問題を解決するのに役立つ可能性があります。
 
 - [**例**](https://github.com/rust-lang/rust/pull/55905/commits/c6862992d947331cd6556f765f6efbde0a709cf9)
+
+[`std::format_args`]: https://doc.rust-lang.org/std/macro.format_args.html
+[`lazy_format`]: https://crates.io/crates/lazy_format
 
 ## ハッシュテーブル
 
