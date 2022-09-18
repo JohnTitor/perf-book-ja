@@ -1,6 +1,6 @@
 [book]
-title = "The Rust Performance Book"
-authors = ["Nicholas Nethercote"]
+title = "The Rust Performance Book for Japanese"
+authors = ["Nicholas Nethercote", "Yuki Okushi"]
 language = "ja"
 
 [build]
