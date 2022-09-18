@@ -154,7 +154,7 @@ AP 1.1/25 (2 children) {
 
 ## ハッシュテーブル
 
-[`HashSet`] や [`HashMap`] はハッシュテーブルです。割り当てという文脈では、それらの表現や操作は `Vec` のそれに似ています。それらはキーや値を保持しつつ単一の継続したヒープ割り当てを行い、テーブルの拡大に必要となる限り再割り当てされます。増大と容量に関する多くの `Vec` のメソッドと同様のものが `HashSet`/`HashMap` にもあります。例えば、[`HashSet::with_capacity`] などです。
+[`HashSet`] や [`HashMap`] はハッシュテーブルです。割り当てという文脈では、それらの表現や操作は `Vec` のそれに似ています。それらはキーや値を保持しつつ単一の継続したヒープを割り当て、テーブルの拡大に必要となる限り再割り当てします。増大と容量に関する多くの `Vec` のメソッドと同様のものが `HashSet`/`HashMap` にもあります。例えば、[`HashSet::with_capacity`] などです。
 
 [`hashset`]: https://doc.rust-lang.org/std/collections/struct.HashSet.html
 [`hashmap`]: https://doc.rust-lang.org/std/collections/struct.HashMap.html
