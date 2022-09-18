@@ -6,7 +6,7 @@
 
 翻訳について、忠実な訳というよりはより自然な訳に傾けるよう心掛けています。できる限り原文の意図等を損なわないよう注意していますが必ずしも原文の内容と一致するものではないこと、また翻訳が誤っている・古くなっている場合があることに注意してください。もし翻訳に疑問を感じた場合には原文を参照することを推奨します。
 
-現在は[こちらのコミット][]まで翻訳されています。
+現在は[こちらのコミット][latest commit]まで翻訳されています。
 
 ["The Rust Performance Book"]: https://nnethercote.github.io/perf-book/
 [latest commit]: https://github.com/nnethercote/perf-book/commit/e319ec20ef928bc09edd5d3404b5ce22f6337047
