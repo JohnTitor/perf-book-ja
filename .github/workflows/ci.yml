@@ -23,14 +23,3 @@ jobs:
       run: |
         curl -sL https://github.com/rust-lang/mdBook/releases/download/v0.4.7/mdbook-v0.4.7-x86_64-unknown-linux-gnu.tar.gz | tar zx
         ./mdbook build
-    - name: Deploy to gh-pages
-      if: github.event_name == 'push' && github.repository == 'JohnTitor/perf-book-ja'
-      run: |
-        cd "${{ env.DEPLOY_DIR }}"
-        rm -rf .git
-        git init
-        git config user.name "Deploy from CI"
-        git config user.email ""
-        git add .
-        git commit -m "Deploy ${GITHUB_SHA} to gh-pages"
-        git push --quiet -f "https://x-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}" HEAD:gh-pages
