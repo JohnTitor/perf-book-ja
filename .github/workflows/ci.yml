@@ -16,8 +16,8 @@ jobs:
         node-version: 16
         cache: 'yarn'
     - run: |
-        npm ci
-        npm run lint
+        yarn
+        yarn lint
     - name: Build the book
       run: |
         curl -sL https://github.com/rust-lang/mdBook/releases/download/v0.4.7/mdbook-v0.4.7-x86_64-unknown-linux-gnu.tar.gz | tar zx
