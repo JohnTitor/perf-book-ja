@@ -1,4 +1,4 @@
-<!-- https://github.com/nnethercote/perf-book/commit/030ab92fbee6ec877c9fcba08237cbeee40cc996 -->
+<!-- https://github.com/nnethercote/perf-book/commit/c512cbdbd3fa7e8f509272544be54b86d5f0647e -->
 
 # 標準ライブラリの型
 
@@ -75,3 +75,7 @@ let r = o.ok_or_else(|| expensive()); // 必要なときだけ `expensive()` と
 [`parking_lot`] クレートは上記の標準ライブラリの同期的な型よりも小さく、高速で、フレキシブルな代替実装を提供します。`parking_lot` にある型の API とセマンティクスは標準ライブラリのそれらと似ていますが同じものではありません。
 
 [`parking_lot`]: https://crates.io/crates/parking_lot
+
+もし `parking_lot` の型を広く使おうとした場合、いくつかの場所で間違って標準ライブラリの型を使ってしまう、ということが容易に起こり得ます。[`clippy` を使用する]とこの問題を回避できます。
+
+[`clippy` を使用する]: ./linting.md#型を禁止する

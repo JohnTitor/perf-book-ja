@@ -1,4 +1,4 @@
-<!-- commit: https://github.com/nnethercote/perf-book/commit/1f357e9fa95139daf0063edd648c41a8f6f47420 -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/c512cbdbd3fa7e8f509272544be54b86d5f0647e -->
 
 # ハッシュ化
 
@@ -32,7 +32,9 @@
 [fx2a]: https://github.com/rust-lang/rust/issues/69153#issuecomment-589504301
 [fx2default]: https://github.com/rust-lang/rust/issues/69153#issuecomment-589338446
 
-`FxHashSet` や `FxHashMap` のような代替案を一般に採用することを決めた場合、ある場所で `HashSet` や `HashMap` を誤って使ってしまうということが容易に起こり得ます。プロファイルにある `SipHasher13` というコードの存在がそれを物語っています。
+`FxHashSet` や `FxHashMap` のような代替案を一般に採用することを決めた場合、ある場所で `HashSet` や `HashMap` を誤って使ってしまうということが容易に起こり得ます。[`clippy` を使用する]とこの問題を回避できます。
+
+[`clippy` を使用する]: ./linting.md#型を禁止する
 
 ハッシュ関数の設計は複雑なトピックであり、この本の範囲外です。[`ahash` のドキュメント]には参考になる情報が載っています。
 
