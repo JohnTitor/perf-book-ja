@@ -1,4 +1,4 @@
-<!-- commit: https://github.com/nnethercote/perf-book/commit/1f357e9fa95139daf0063edd648c41a8f6f47420 -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/91e4ea974ea4e3594a595dc9b94e70aa85e162ee -->
 
 # プロファイリング
 
@@ -17,7 +17,7 @@
 - [flamegraph] はコードのプロファイルに perf または DTrace を使用し、フレームグラフの形式でその結果を表示する Cargo コマンドです。Linux および DTraceがサポートするすべてのプラットフォーム (macOS、FreeBSD、NetBSD、そしておそらく Windows) 上で動作します。
 - [Cachegrind] 及び [Callgrind] はグローバル、関数ごと、あるいはソースコード行別の命令数カウントとシミュレートされたキャッシュ、そして分岐予測データを提供します。Linux といくつかの Unix システム上で動作します。
 - [DHAT] はコードのどの部分が多くのアロケーションを起こしているか見つけたり、ピーク時のメモリ使用状況について把握したりすることに適しています。これはまた `memcpy` の頻繁な呼び出しを特定するためにも使われます。Linux 及びその他いくつかの Unix システム上で動作します。[dhat-rs] は、機能がやや貧弱で Rust コードに少し手を加える必要がありますが、すべてのプラットフォーム上で動作する実験的な代替クレートです。
-- [heaptrack] はもう1つのヒーププロファイリングツールです。Linux 上で動作します。
+- [heaptrack] 及び [bytehound] はヒーププロファイリングツールです。Linux 上で動作します。
 - [`counts`] はアドホックなプロファイリングをサポートしています。これは `eprintln!` 文の使用と周波数ベースの後処理を組み合わせたもので、コードの一部についてドメイン固有な情報を把握するのに適しています。すべてのプラットフォームで動作します。
 - [Coz] は潜在的な最適化を測定するための **簡略化された (casual)** プロファイリングを行います。[coz-rs] により Rust をサポートしています。 Linux 上で動作します。
 
@@ -32,6 +32,7 @@
 [DHAT]: https://www.valgrind.org/docs/manual/dh-manual.html
 [dhat-rs]: https://github.com/nnethercote/dhat-rs/
 [heaptrack]: https://github.com/KDE/heaptrack
+[bytehound]: https://github.com/koute/bytehound
 [`counts`]: https://github.com/nnethercote/counts/
 [Coz]: https://github.com/plasma-umass/coz
 [coz-rs]: https://github.com/plasma-umass/coz/tree/master/rust

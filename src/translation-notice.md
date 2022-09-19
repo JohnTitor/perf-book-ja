@@ -9,7 +9,7 @@
 現在は[こちらのコミット][latest commit]まで翻訳されています。
 
 ["The Rust Performance Book"]: https://nnethercote.github.io/perf-book/
-[latest commit]: https://github.com/nnethercote/perf-book/commit/c512cbdbd3fa7e8f509272544be54b86d5f0647e
+[latest commit]: https://github.com/nnethercote/perf-book/commit/91e4ea974ea4e3594a595dc9b94e70aa85e162ee
 
 ## 翻訳に誤りがある場合
 

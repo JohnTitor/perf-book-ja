@@ -1,4 +1,4 @@
-<!-- commit: https://github.com/nnethercote/perf-book/commit/7cdbb476e0c1b40db89f394a40caafe65688933e -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/91e4ea974ea4e3594a595dc9b94e70aa85e162ee -->
 
 # 型のサイズ
 
@@ -6,10 +6,9 @@
 
 しばしばインスタンス化される型を縮小する（shrink）ことは、パフォーマンスの向上に寄与します。
 
-例えば、もしメモリ使用量が高い場合、[DHAT] や [heaptrack] のようなヒーププロファイラーを使うと、ホットな割り当て位置（allocation points）とそれに付随する型を特定できます。それらの型を縮小することはピーク時のメモリ使用量を減らすことができ、またメモリへの頻繁なアクセスやキャッシュへの負担を減らすことでパフォーマンスを改善できる可能性があります。
+例えば、もしメモリ使用量が高い場合、[DHAT] のようなヒーププロファイラーを使うと、ホットな割り当て位置（allocation points）とそれに付随する型を特定できます。それらの型を縮小することはピーク時のメモリ使用量を減らすことができ、またメモリへの頻繁なアクセスやキャッシュへの負担を減らすことでパフォーマンスを改善できる可能性があります。
 
 [dhat]: https://www.valgrind.org/docs/manual/dh-manual.html
-[heaptrack]: https://github.com/KDE/heaptrack
 
 それに加え、128 bytes より大きい Rust の型はインライン化されず `memcpy` によってコピーされます。もしプロファイラー上で `memcpy` の使用量が無視できないほど大きいことが分かった場合、DHAT の "copy profiling" モードを使えば、ホットな `memcpy` 呼び出しの位置やそれに付随する型について正確に把握できます。それらの型を 128 bytes 以下に縮小することで、`memcpy` の呼び出しを避けメモリへのアクセスを減らすことができ、コードの高速化が期待できます。
 
