@@ -1,4 +1,4 @@
-<!-- commit: https://github.com/nnethercote/perf-book/commit/91e4ea974ea4e3594a595dc9b94e70aa85e162ee -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/a60b3ff267fb8415e5d4dc45b11b7e9877d5c808 -->
 
 # 型のサイズ
 
@@ -14,7 +14,7 @@
 
 ## 型のサイズを測定する
 
-[`std::mem::size_of`] は byte 単位での型のサイズを教えてくれますが、しばしばその正確なレイアウトも知りたいことがあるでしょう。例えば、列挙型（enum）は他より大きい1つの列挙子により、驚くほど大きくなることがあります。
+[`std::mem::size_of`] は byte 単位での型のサイズを教えてくれますが、しばしばその正確なレイアウトも知りたいことがあるでしょう。例えば、列挙型（enum）は1つの大きな列挙子により、驚くほど大きくなることがあります。
 
 [`std::mem::size_of`]: https://doc.rust-lang.org/std/mem/fn.size_of.html
 
