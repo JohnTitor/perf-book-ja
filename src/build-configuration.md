@@ -1,4 +1,4 @@
-<!-- commit: https://github.com/nnethercote/perf-book/commit/63f37c0c7e6a7363279dae1ae16ce83eed3208da -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/42f42d6315dbdd1991e9bf8363e8bb4b3d79ca48 -->
 
 # ビルド設定
 
@@ -89,6 +89,12 @@ RUSTFLAGS="-C target-cpu=native" cargo build --release
 これは、特にコンパイラがコード内に[ベクトル化]の機会を見つけた場合には、大きな影響を与えます。
 
 [ベクトル化]: https://ja.wikipedia.org/wiki/%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E5%8C%96
+
+2022年7月現在、M1 Macs において `-C target-cpu=native` を使用した際に[すべての CPU 機能を検出できないという問題][issue]が存在します。この場合、`-C target-cpu=apple-m1` を代わりに使用してください。
+
+[issue]: https://github.com/rust-lang/rust/issues/93889
+
+もし `-C target-cpu=native` がうまく動作しているか不安な場合は、`rustc --print cfg` と `rustc --print cfg -C target-cpu=native` の出力を比較してみてください。これにより、CPUの機能が後者において正確に検出されているかを確認できます。もし検出できなかった場合には、`-C target-feature` を使って特定の機能を対象にできます。
 
 ## `panic!` 時に中断 (abort) する
 
