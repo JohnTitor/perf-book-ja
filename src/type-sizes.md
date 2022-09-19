@@ -1,4 +1,4 @@
-<!-- commit: https://github.com/nnethercote/perf-book/commit/a60b3ff267fb8415e5d4dc45b11b7e9877d5c808 -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/881b21d329ab4ff89c93123ebca6a9715e9533a2 -->
 
 # 型のサイズ
 
@@ -135,6 +135,14 @@ without any cloning or a reallocation.
 
 [`vec::into_boxed_slice`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.into_boxed_slice
 [`slice::into_vec`]: https://doc.rust-lang.org/std/primitive.slice.html#method.into_vec
+
+## `ThinVec`
+
+ボックス化されたスライスの代替として [`thin_vec`] クレートにある `ThinVec` 型が使用できます。これは機能的には `Vec` と同等ですが、（もし存在する場合）長さと容量を要素として同じアロケーションに保存します。これは `size_of::<ThinVec<T>>` が1つの値で表されることを意味します。
+
+しばしば空になり得るベクタ型を持つ際、頻繁にインスタンス化される (oft-instantiated) 型の中で `ThinVec` は良い選択肢となり得ます。また、ある列挙型の最も大きな列挙子が `Vec` を含む場合、その列挙子を縮小するために使用できます。
+
+[`thin_vec`]: https://crates.io/crates/thin-vec
 
 ## リグレッションを避ける
 
