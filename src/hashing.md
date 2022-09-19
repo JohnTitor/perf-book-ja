@@ -1,4 +1,4 @@
-<!-- commit: https://github.com/nnethercote/perf-book/commit/d0ba7e92f194dfcdc374eb32801317b918a90d22 -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/1f357e9fa95139daf0063edd648c41a8f6f47420 -->
 
 # ハッシュ化
 
@@ -12,7 +12,7 @@
 
 <!-- textlint-disable ja-technical-writing/no-doubled-conjunctive-particle-ga -->
 - [`rustc-hash`] は `HashSet` や `HashMap` の代替となる `FxHashSet` や `FxHashMap` を提供しています。ハッシュアルゴリズムは低品質ですが、特に整数キーの場合にはとても高速で、rustc 内の他のどのハッシュアルゴリズムよりも性能が優れています（[`fxhash`] は同じアルゴリズムと型の実装を持ちますが、`rustc-hash` に比べると古くあまりメンテナンスされていません）
-- [`fnv`] は `FnvHashSet` 及び `FnvHashMap` 型を提供しています。ハッシュアルゴリズムは `fxhash` よりも高品質ですが、その分速度はやや劣ります
+- [`fnv`] は `FnvHashSet` 及び `FnvHashMap` 型を提供しています。ハッシュアルゴリズムは `rustc-hash` よりも高品質ですが、その分速度はやや劣ります
 - [`ahash`] は `AHashSet` 及び `AHashMap` を提供しています。`ahash` のハッシュアルゴリズムはいくつかのプロセッサで利用可能な AES 命令をサポートしています
 <!-- textlint-enable ja-technical-writing/no-doubled-conjunctive-particle-ga -->
 

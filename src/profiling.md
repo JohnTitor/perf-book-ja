@@ -1,4 +1,4 @@
-<!-- commit: https://github.com/nnethercote/perf-book/commit/1cf7c72e8694179883e218c983b391f6b56e6c62 -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/1f357e9fa95139daf0063edd648c41a8f6f47420 -->
 
 # プロファイリング
 
@@ -61,7 +61,7 @@ debuginfo-level = 1
 ## シンボルデマングリング
 
 <!-- textlint-disable ja-technical-writing/no-doubled-joshi -->
-Rust はコンパイルされたコード中に関数名をエンコードするためのマングリングスキーマを持っています。もしプロファイラがこれに対応していない場合、出力に `_ZN3foo3barE` や `_ZN28_$u7b$$u7b$closure$u7d$$u7d$E`、`_ZN88_$LT$core..result..Result$LT$$u21$$C$$u20$E$GT$$u20$as$u20$std..process..Termination$GT$6report17hfc41d0da4a40b3e8E` のような、シンボル名が含まれる場合があります。これらの名前は [`rustfilt`] を使って手ずからデマングリングできます。
+Rust はコンパイルされたコード中に関数名をエンコードするためのマングリングスキーマを持っています。もしプロファイラがこれに対応していない場合、出力に `_ZN3foo3barE` や `_ZN28_$u7b$$u7b$closure$u7d$$u7d$E`、`_RMCsno73SFvQKx_1cINtB0_3StrKRe616263_E` のような、`_ZN` や `_R` から始まるシンボル名が含まれる可能性があります。これらは [`rustfilt`] を使って手ずからデマングリングできます。
 <!-- textlint-enable ja-technical-writing/no-doubled-joshi -->
 
 [`rustfilt`]: https://crates.io/crates/rustfilt

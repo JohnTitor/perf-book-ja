@@ -1,6 +1,6 @@
 <!-- commit: https://github.com/nnethercote/perf-book/commit/bfb0a69ea4a0d3057e1fb3dac03dee249f6f208d -->
 
-# 一般的なアドバイス
+# 汎用的なアドバイス
 
 ([原文](https://nnethercote.github.io/perf-book/general-tips.html))
 
