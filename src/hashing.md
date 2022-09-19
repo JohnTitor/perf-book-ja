@@ -1,4 +1,4 @@
-<!-- commit: https://github.com/nnethercote/perf-book/commit/c512cbdbd3fa7e8f509272544be54b86d5f0647e -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/c30dcc00f96e3538d1cc1d01dadc861a71ffee5f -->
 
 # ハッシュ化
 
@@ -35,6 +35,11 @@
 `FxHashSet` や `FxHashMap` のような代替案を一般に採用することを決めた場合、ある場所で `HashSet` や `HashMap` を誤って使ってしまうということが容易に起こり得ます。[`clippy` を使用する]とこの問題を回避できます。
 
 [`clippy` を使用する]: ./linting.md#型を禁止する
+
+いくつかの型はハッシュ化を必要としません。例えば、整数型を包んだ [newtype] があり、その値はランダムまたはランダムに近いものであるとします。そのような型の場合、ハッシュ化された値の分布は値自体のそれとさほど変わらないでしょう。こういうケースでは [`nohash_hasher`] が役立つこともあります。
+
+[newtype]: https://doc.rust-lang.org/rust-by-example/generics/new_types.html
+[`nohash_hasher`]: https://crates.io/crates/nohash-hasher
 
 ハッシュ関数の設計は複雑なトピックであり、この本の範囲外です。[`ahash` のドキュメント]には参考になる情報が載っています。
 
