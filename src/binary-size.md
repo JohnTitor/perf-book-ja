@@ -2,6 +2,8 @@
 
 # バイナリサイズ
 
+([原文](https://nnethercote.github.io/perf-book/binary-size.html))
+
 コンパイルされた Rust のバイナリサイズを小さくしたい、という時があるでしょう。その際は、網羅的で有用なドキュメントが [`min-sized-rust`] というレポジトリにあるため、そちらを参照してください。
 
 [`min-sized-rust`]: https://github.com/johnthagen/min-sized-rust
