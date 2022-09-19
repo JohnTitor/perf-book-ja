@@ -1,4 +1,4 @@
-<!-- commit: https://github.com/nnethercote/perf-book/commit/fe8f8ba8e19b79708f623421cf707e4184897c76 -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/60855e5d0007748ad316e17acd66171d9eb991fb -->
 
 # コンパイル時間
 
@@ -67,7 +67,8 @@ Rust はバックエンドに LLVM を採用しています。LLVM の実行は�
 
 もしジェネリックな関数が中間表現を膨大にしている場合、いくつかの修正方法があります。もっともシンプルなものは関数を小さくすることです。
 
-- [**例**](https://github.com/rust-lang/rust/pull/72166/commits/5a0ac0552e05c079f252482cfcdaab3c4b39d614)
+- [**例 1**](https://github.com/rust-lang/rust/pull/72166/commits/5a0ac0552e05c079f252482cfcdaab3c4b39d614)
+- [**例 2**](https://github.com/rust-lang/rust/pull/91246/commits/f3bda74d363a060ade5e5caeb654ba59bfed51a4)
 
 もう1つの方法は関数のジェネリックでない部分を、一度しかインスタンス化されない個別のジェネリックでない関数に移動することです。これが可能かどうかはジェネリックな関数の実装詳細に依存します。コード中での露出を最小化するため、ジェネリックでない関数はジェネリックな関数のインナー関数として書かれることが多いです。
 

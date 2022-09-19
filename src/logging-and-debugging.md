@@ -1,4 +1,4 @@
-<!-- commit: https://github.com/nnethercote/perf-book/commit/19db3a765030ed7c394a987eff5c09f639f0607d -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/60855e5d0007748ad316e17acd66171d9eb991fb -->
 
 # ログとデバッグ
 
@@ -11,7 +11,8 @@
 
 [`assert!`] は常に実行されますが、[`debug_assert!`] はデバッグビルド時にのみ実行されることを覚えておいてください。頻繁に呼び出されるが安全性のために必要なわけではないアサーションについては、`debug_assert!` の使用を検討してください。
 
-- [**例**](https://github.com/rust-lang/rust/pull/58210/commits/f7ed6e18160bc8fccf27a73c05f3935c9e8f672e)
+- [**例 1**](https://github.com/rust-lang/rust/pull/58210/commits/f7ed6e18160bc8fccf27a73c05f3935c9e8f672e)
+- [**例 2**](https://github.com/rust-lang/rust/pull/90746/commits/580d357b5adef605fc731d295ca53ab8532e26fb)
 
 [`assert!`]: https://doc.rust-lang.org/std/macro.assert.html
 [`debug_assert!`]: https://doc.rust-lang.org/std/macro.debug_assert.html
