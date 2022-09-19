@@ -1,4 +1,4 @@
-<!-- commit: https://github.com/nnethercote/perf-book/commit/91e4ea974ea4e3594a595dc9b94e70aa85e162ee -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/094b3e33150631e10ac1531de3297b0d59d2dc24 -->
 
 # プロファイリング
 
@@ -8,11 +8,12 @@
 
 ## プロファイラー
 
-（訳注：それぞれのプロファイラーについて特徴を把握しきれておらず、訳が伝わりにくいものになっているものがあります。適宜[原文]を参照してください）
+（訳注：それぞれのプロファイラーについて特徴を把握しきれておらず、訳が伝わりにくくになっているものがあります。適宜[原文]を参照してください）
 
-多くのプロファイラーを利用できますが、それぞれに得意・不得意があります。以下のプロファイラーは Rust プログラム上でうまく動作します：
+多くのプロファイラーを利用できますが、それぞれに得意・不得意があります。以下のリストはすべてのプロファイラーを網羅しているわけではありませんが、 Rust プログラム上でうまく動作することを確認しています：
 
 - [perf] はハードウェアパフォーマンスカウンターを利用した、一般用途向けのプロファイラーです。[Hotspot] や [Firefox Profiler] は perf が記録したデータを閲覧するのに適しています。perf は Linux 上で動作します。
+- [Instruments] は macOS 上で Xcode とともに配布される一般利用に適したプロファイラーです。
 - [AMD μProf] は一般用途向けのプロファイラーです。 Windows 及び Linux 上で動作します。
 - [flamegraph] はコードのプロファイルに perf または DTrace を使用し、フレームグラフの形式でその結果を表示する Cargo コマンドです。Linux および DTraceがサポートするすべてのプラットフォーム (macOS、FreeBSD、NetBSD、そしておそらく Windows) 上で動作します。
 - [Cachegrind] 及び [Callgrind] はグローバル、関数ごと、あるいはソースコード行別の命令数カウントとシミュレートされたキャッシュ、そして分岐予測データを提供します。Linux といくつかの Unix システム上で動作します。
@@ -24,6 +25,7 @@
 [原文]: https://nnethercote.github.io/perf-book/profiling.html
 [perf]: https://perf.wiki.kernel.org/index.php/Main_Page
 [Hotspot]: https://github.com/KDAB/hotspot
+[Instruments]: https://developer.apple.com/forums/tags/instruments
 [Firefox Profiler]: https://profiler.firefox.com/
 [AMD μProf]: https://developer.amd.com/amd-uprof/
 [flamegraph]: https://github.com/flamegraph-rs/flamegraph
