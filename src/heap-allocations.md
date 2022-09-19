@@ -1,4 +1,4 @@
-<!-- https://github.com/nnethercote/perf-book/commit/1f357e9fa95139daf0063edd648c41a8f6f47420 -->
+<!-- https://github.com/nnethercote/perf-book/commit/592e8d3e79cdb0f23c5579cf433a0161916764bd -->
 
 # ヒープ割り当て
 
@@ -264,9 +264,12 @@ jemallocator = "0.3.2"
 static GLOBAL: jemallocator::Jemalloc = jemallocator::Jemalloc;
 ```
 
+代替として、`jemallocator` のフォークである [`tikv-jemallocator`] クレートがあります。これは2021年12月現在新しいバージョンの jemalloc を使用しており、パフォーマンスがわずかに向上しています。
+
 もう 1 つの代替となるアロケータは [`mimalloc`] を通して使える [mimalloc] です。
 
 [jemalloc]: https://github.com/jemalloc/jemalloc
 [`jemallocator`]: https://crates.io/crates/jemallocator
+[`tikv-jemallocator`]: https://crates.io/crates/tikv-jemallocator
 [mimalloc]: https://github.com/microsoft/mimalloc
 [`mimalloc`]: https://docs.rs/mimalloc/0.1.22/mimalloc/
