@@ -1,4 +1,4 @@
-<!-- commit: https://github.com/nnethercote/perf-book/commit/60855e5d0007748ad316e17acd66171d9eb991fb -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/786501b5ec25f6bf699f2509ee7cf387256f82ea -->
 
 # コンパイル時間
 
@@ -41,16 +41,22 @@ incremental = true
 
 ## 視覚化
 
-Cargo はプログラムのコンパイルを視覚化する機能を持っています。`-Ztimings` を渡すことで有効化できます：
+Cargo はプログラムのコンパイルを視覚化する機能を持っています。`timings` フラグを渡すことで有効化できます（Rust 1.60 以上の場合）：
+
+```bash
+cargo build --timings
+```
+
+1.59 以下の場合はこちら：
 
 ```bash
 cargo +nightly build -Ztimings
 ```
 
-完了すると、HTML ファイルの名前が表示されます。そのファイルの web ブラウザで開いてください。HTML ファイルはプログラムに使われている様々なクレート間での依存関係を示すガントチャートを持っています。これはクレートグラフ中にどのくらいの並行性があるかを示し、コンパイルを直列化している大きなクレート群を分割すべきかを教えてくれます。詳細なグラフの読み方については[このドキュメント][z-timings]を参照してください。
+完了すると、HTML ファイルの名前が表示されます。そのファイルの web ブラウザで開いてください。HTML ファイルはプログラムに使われている様々なクレート間での依存関係を示すガントチャートを持っています。これはクレートグラフ中にどのくらいの並行性があるかを示し、コンパイルを直列化している大きなクレート群を分割すべきかを教えてくれます。詳細なグラフの読み方については[このドキュメント][timings]を参照してください。
 
 [ガントチャート]: https://en.wikipedia.org/wiki/Gantt_chart
-[z-timings]: https://doc.rust-lang.org/nightly/cargo/reference/unstable.html#timings
+[timings]: https://doc.rust-lang.org/nightly/cargo/reference/timings.html
 
 ## LLVM IR
 
