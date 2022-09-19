@@ -1,4 +1,4 @@
-<!-- https://github.com/nnethercote/perf-book/commit/592e8d3e79cdb0f23c5579cf433a0161916764bd -->
+<!-- https://github.com/nnethercote/perf-book/commit/ee07bf3284a2dd192ce765d12415c3bc41791556 -->
 
 # ヒープ割り当て
 
@@ -250,26 +250,27 @@ fn do_stuff(x: u32, y: u32, vec: &mut Vec<u32>) {
 
 割り当ての多い Rust プログラムのパフォーマンスを向上させる別の手段として、デフォルトの（システム）アロケータを代替のものに置き換える、というものがあります。正確な影響は個々のプログラムと選ばれるアロケータに依存しますが、一般に大きな速度改善とメモリ使用量の削減をもたらします。各プラットフォームのシステムアロケータはそれぞれ長所短所を持っており、プラットフォームによってもその影響は異なります。また、異なるアロケータの使用はバイナリサイズにも影響します。
 
-人気のある代替アロケータの 1 つに [`jemallocator`] クレートを通して使える [jemalloc] があります。使用するには依存関係を `Cargo.toml` に追記します：
+人気のある Linux/Mac 向け代替アロケータの 1 つに [`tikv-jemallocator`] クレートを通して使える [jemalloc] があります。使用するには依存関係を `Cargo.toml` に追記します：
 
 ```toml
 [dependencies]
-jemallocator = "0.3.2"
+tikv-jemallocator = "0.4.0"
 ```
 
 それから次の行を Rust コードのどこかに追記します：
 
 ```rust,ignore
 #[global_allocator]
-static GLOBAL: jemallocator::Jemalloc = jemallocator::Jemalloc;
+static GLOBAL: tikv_jemallocator::Jemalloc = tikv_jemallocator::Jemalloc;
 ```
 
-代替として、`jemallocator` のフォークである [`tikv-jemallocator`] クレートがあります。これは2021年12月現在新しいバージョンの jemalloc を使用しており、パフォーマンスがわずかに向上しています。
+[`tikv-jemallocator`] は `jemallocator` クレートのフォークです。`tikv-jemallocator` は2021年12月現在、`jemallocator` より新しいバージョンの jemalloc を使用しており、[パフォーマンスがわずかに向上しています][tikv-perf-example]。
 
-もう 1 つの代替となるアロケータは [`mimalloc`] を通して使える [mimalloc] です。
+多くのプラットフォームで利用可能な代替アロケータとしてもう1つ挙げるとすれば、 [`mimalloc`] を通して使える [mimalloc] があります。
 
 [jemalloc]: https://github.com/jemalloc/jemalloc
 [`jemallocator`]: https://crates.io/crates/jemallocator
 [`tikv-jemallocator`]: https://crates.io/crates/tikv-jemallocator
+[tikv-perf-example]: https://github.com/rust-lang/rust/pull/83152
 [mimalloc]: https://github.com/microsoft/mimalloc
 [`mimalloc`]: https://docs.rs/mimalloc/0.1.22/mimalloc/
