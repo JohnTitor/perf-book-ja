@@ -1,4 +1,4 @@
-<!-- https://github.com/nnethercote/perf-book/commit/ee07bf3284a2dd192ce765d12415c3bc41791556 -->
+<!-- https://github.com/nnethercote/perf-book/commit/a961577b90d3a6c28fb56e818990240e895c1218 -->
 
 # ヒープ割り当て
 
@@ -274,3 +274,9 @@ static GLOBAL: tikv_jemallocator::Jemalloc = tikv_jemallocator::Jemalloc;
 [tikv-perf-example]: https://github.com/rust-lang/rust/pull/83152
 [mimalloc]: https://github.com/microsoft/mimalloc
 [`mimalloc`]: https://docs.rs/mimalloc/0.1.22/mimalloc/
+
+## リグレッションを避ける
+
+コード上のアロケーション回数・サイズが意図せず増加していないことを保証するためには、[dhat-rs] のヒープ使用量テスト機能が便利です。これを使うことで、特定のコードスニペットが想定通りのヒープメモリ量を割り当てているかをテストで確かめられるようになります。
+
+[dhat-rs]: https://crates.io/crates/dhat
