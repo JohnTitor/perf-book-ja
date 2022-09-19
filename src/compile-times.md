@@ -1,4 +1,4 @@
-<!-- commit: https://github.com/nnethercote/perf-book/commit/786501b5ec25f6bf699f2509ee7cf387256f82ea -->
+<!-- commit: https://github.com/nnethercote/perf-book/commit/dc7b0d7c707c9a1a45c58aeb771b463e3672dfff -->
 
 # コンパイル時間
 
@@ -8,7 +8,11 @@
 
 ## リンク
 
-コンパイル時間の大部分は実際にはリンク時間です。特に小さな変更を施した後にコンパイルし直すときは顕著です。Linux や Windows 上では、デフォルトのものよりずっと高速な lld をリンカとして選択できます。
+コンパイル時間の大部分は実際にはリンク時間です。特に小さな変更を施した後にコンパイルし直すときは顕著です。プラットフォーム・ユースケース次第でデフォルトのものより高速なリンカを選択できます。
+
+1つの選択肢は [lld] で、これは Linux 及び Windows 上で利用できます。
+
+[lld]: https://lld.llvm.org/
 
 コマンドラインから lld を指定するには、ビルドコマンドの先頭に `RUSTFLAGS="-C link-arg=-fuse-ld=lld"` を付け加えます。
 
@@ -24,6 +28,12 @@ rustflags = ["-C", "link-arg=-fuse-ld=lld"]
 Rust は lld の利用を完全にサポートしているわけではありませんが、Linux や Windows 上での殆どのユースケースで動作するはずです。lld の完全なサポートについてはこの [GitHub Issue] を参照してください。
 
 [github issue]: https://github.com/rust-lang/rust/issues/39915#issuecomment-618726211
+
+もう1つの選択肢は [mold] で、これは現在 Linux 上でのみ利用できます。使用するには上記の lld の手順を mold に置き換えるだけです。
+
+[mold]: https://github.com/rui314/mold
+
+mold は多くの場合 lld よりも高速です。しかし比較的新しくすべての環境で動作するとは限りません。
 
 ## インクリメンタルコンパイル
 
