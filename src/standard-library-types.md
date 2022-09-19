@@ -1,23 +1,32 @@
-<!-- https://github.com/nnethercote/perf-book/commit/c512cbdbd3fa7e8f509272544be54b86d5f0647e -->
+<!-- https://github.com/nnethercote/perf-book/commit/92f4d8019abfadb01fde723048ff510cf86e8e87 -->
 
 # 標準ライブラリの型
 
 ([原文](https://nnethercote.github.io/perf-book/standard-library-types.html))
 
-[`Vec`]、[`Option`]、[`Result`]、そして [`Rc`]/[`Arc`] のような、よく使われる標準ライブラリの型のドキュメントを読むことは、パフォーマンスを向上させるのに使える面白い関数を見つけることに繋がります。
+[`Box`]、[`Vec`]、[`Option`]、[`Result`]、そして [`Rc`]/[`Arc`] のような、よく使われる標準ライブラリの型のドキュメントを読むことは、パフォーマンスを向上させるのに使える面白い関数を見つけることに繋がります。
 
-[`vec`]: https://doc.rust-lang.org/std/vec/struct.Vec.html
-[`option`]: https://doc.rust-lang.org/std/option/enum.Option.html
-[`result`]: https://doc.rust-lang.org/std/result/enum.Result.html
-[`rc`]: https://doc.rust-lang.org/std/rc/struct.Rc.html
-[`arc`]: https://doc.rust-lang.org/std/sync/struct.Arc.html
+[`Box`]: https://doc.rust-lang.org/std/boxed/struct.Box.html
+[`Cec`]: https://doc.rust-lang.org/std/vec/struct.Vec.html
+[`Option`]: https://doc.rust-lang.org/std/option/enum.Option.html
+[`Result`]: https://doc.rust-lang.org/std/result/enum.Result.html
+[`Rc`]: https://doc.rust-lang.org/std/rc/struct.Rc.html
+[`Arc`]: https://doc.rust-lang.org/std/sync/struct.Arc.html
 
 また、[`Mutex`]、[`RwLock`]、[`Condvar`]、そして [`Once`] のような、パフォーマンス向上という視点で他の標準ライブラリの型の代替となり得る型についても知っておくべきでしょう。
 
-[`mutex`]: https://doc.rust-lang.org/std/sync/struct.Mutex.html
-[`rwlock`]: https://doc.rust-lang.org/std/sync/struct.RwLock.html
-[`condvar`]: https://doc.rust-lang.org/std/sync/struct.Condvar.html
-[`once`]: https://doc.rust-lang.org/std/sync/struct.Once.html
+[`Mutex`]: https://doc.rust-lang.org/std/sync/struct.Mutex.html
+[`RwLock`]: https://doc.rust-lang.org/std/sync/struct.RwLock.html
+[`Condvar`]: https://doc.rust-lang.org/std/sync/struct.Condvar.html
+[`Once`]: https://doc.rust-lang.org/std/sync/struct.Once.html
+
+## `Box`
+
+[`Box::default()`] という式は `Box::new(T::default())` と同じ効果を持ちますが、コンパイラがそれをスタック上に構築しコピーするのではなく、ヒープ上に直接値を作成できるという点で高速になる場合があります。
+
+- [**例**](https://github.com/komora-io/art/commit/d5dc58338f475709c375e15976d0d77eb5d7f7ef)
+
+[`Box::default()`]: https://doc.rust-lang.org/std/boxed/struct.Box.html#method.default
 
 ## `Vec`
 
